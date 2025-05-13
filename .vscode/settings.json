@@ -1,0 +1,45 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
+  "eslint.workingDirectories": [
+    { "pattern": "apps/*/" },
+    { "pattern": "packages/*/" },
+    { "pattern": "tooling/*/" }
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"],
+    ["className=\"([^\"]*)\"", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["className={[\"'`]([^}]*)[\"'`]}", "([^\"'`]*)"],
+    ["tw=\"([^\"]*)\"", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["tw`([^`]*)`", "([^`]*)"],
+    ["style={tw`([^`]*)`}", "([^`]*)"]
+  ],
+  "tailwindCSS.experimental.configFile": "app/tailwind.config.ts",
+  "tailwindCSS.includeLanguages": {
+    "javascript": "javascriptreact",
+    "typescript": "typescriptreact"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.preferences.autoImportFileExcludePatterns": [
+    "next/router.d.ts",
+    "next/dist/client/router.d.ts"
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "cSpell.words": [
+    "supabase"
+  ],
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  }
+}
+
+// /Users/gabriellulu/Developer/github/quantified/app/tailwind.config.ts
