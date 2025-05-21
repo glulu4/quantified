@@ -11,13 +11,20 @@ interface WidgetDisplayProps {
     removeWidget: (widgetId: string) => void;
 }
 
+/**
+ * WidgetDisplay component to display a widget with a title and remove button.
+ * @param {Widget} widget - The widget object containing the widget data.
+ * @param {function} removeWidget - Function to remove the widget.
+ * @returns {JSX.Element} - The rendered component.
+ */
+
 export default function WidgetDisplay({widget, removeWidget}: WidgetDisplayProps) {
 
     const red = useThemeColor({}, "red");
     return (
-        <View className='flex flex-col flex-1'>
+        <View className='flex flex-col flex-1 py-6'>
 
-            <View className='flex flex-1 flex-row items-center justify-between mb-3 '>
+            <View className='flex flex-row items-center justify-between '>
                 <ThemedText labelType='primary' type='title3' className=' ml-2' emphasized>
                     {widget.title}
                 </ThemedText>

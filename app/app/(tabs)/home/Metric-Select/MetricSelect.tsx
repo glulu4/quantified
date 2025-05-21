@@ -4,7 +4,6 @@ import {useMetricSelectLogic} from './hooks/useMetricSelectLogic';
 import ThemedView from '@/components/ThemedView';
 import SegmentedControl from '@react-native-segmented-control/segmented-control';
 import FilterBar from './components/FilterBar';
-import {CoreMetric, CoreMetricPack} from '@/types/core-metric';
 import {ThemedText} from '@/components/ui/ThemedText';
 import LeftDrawer from '@/components/LeftDrawer';
 import MetricList from './components/MetricList';
@@ -17,7 +16,6 @@ import MetricBottomSheet from './components/MetricBottomSheet';
 import {useFilters} from './hooks/useFilters';
 import {useForm} from '@/app/context/FormContext';
 import Search from '@/components/Search';
-import {useTheme} from 'react-native-paper';
 import {useThemeColor} from '@/hooks/useThemeColor';
 
 

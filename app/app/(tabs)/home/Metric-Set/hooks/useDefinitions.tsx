@@ -1,4 +1,4 @@
-import {useEffect, useMemo} from 'react';
+import {useEffect, useMemo, useRef} from 'react';
 import {Timestamp} from 'firebase/firestore';
 import * as Crypto from 'expo-crypto';
 import {CoreMetric, CoreMetricPack, MetricPackType} from '@/types/core-metric';
@@ -23,7 +23,6 @@ export const useDefinitions = () => {
 
     const allMetricDefs = getAllItems(metricDefMap);
     const allMetricPackDefs = getAllItems(metricPackDefMap);
-
 
     // ! ! ! ! ! ! ! ! ! 
     // during form editing, merge with old ones
@@ -105,9 +104,11 @@ export const useDefinitions = () => {
 
     useEffect(() => {
         // not in edit mode, we just need to initialize the maps
-        if (state.mode !== "edit") {
+        if (state.mode !== "edit" && !state.initializedMaps) {
+
             initMetricDefMap(newCoreMetrics);
             initMetricPackDefMap(newCoreMetricPacks);
+            dispatch({type: "SET_INITIALIZE_MAP", payload: true});
         }
     }, []);
 
@@ -117,6 +118,9 @@ export const useDefinitions = () => {
         // For each core metric, if it's not in the metricDefMap, add it
         allCoreMetrics.forEach((coreMetric) => {
             if (!metricDefMap.has(coreMetric.id)) {
+
+                console.log("Adding new metric def for", coreMetric.id);
+
                 addMetricDefinition(coreMetric);
             }
         });
@@ -134,9 +138,10 @@ export const useDefinitions = () => {
     // --- 2) Provide helper functions for adding a single definition or pack
     function addMetricDefinition(coreMetric: CoreMetric) {
         const updatedMap = new Map(metricDefMap); // clone existing map
+        const metricDefId = Crypto.randomUUID();
         updatedMap.set(coreMetric.id, {
             value: {
-                id: Crypto.randomUUID(),
+                id: metricDefId,
                 formDefinitionId: '',
                 coreMetricId: coreMetric.id,
                 metricTitle: coreMetric.defaultTitle,

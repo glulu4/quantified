@@ -132,40 +132,43 @@ export default function MetricSet() {
 
 
     return (
-        <ThemedView backGroundLevel="bgPrimary" className='flex-1 flex'>
+        <ThemedView backGroundLevel="bgPrimary" className='flex flex-1'>
 
-            <ScrollView
-                style={{
-                    flex: 1, margin: spacing['3xl']
-                }}
-            >
-                {allCoreMetrics.map((cm, idx) => (
-                    <MetricDefInput
-                        removeMetricDef={removeMetricDef}
+            <View>
+                <ScrollView
+                    style={{
+                        margin: spacing['3xl']
+                    }}
+                >
+                    {allCoreMetrics.map((cm, idx) => (
+                        <MetricDefInput
+                            removeMetricDef={removeMetricDef}
 
-                        updateMetricDef={updateMetricDef} key={idx} coreMetric={cm} />
-                ))}
-
-
-
-                {allCoreMetricPacks.map((cp, idx) => (
-                    <MetricPackInput
-                        key={idx}
-                        coreMetricPack={cp}
-                        updateMetricPackDef={updateMetricPackDef}
-                        removeMetricPackDef={removeMetricPackDef}
-                    />
-                ))}
-
-                {widgets.map((widget, index) => (
-                    <WidgetDisplay removeWidget={removeWidget} key={index} widget={widget} />
-                ))}
+                            updateMetricDef={updateMetricDef} key={idx} coreMetric={cm} />
+                    ))}
 
 
 
+                    {allCoreMetricPacks.map((cp, idx) => (
+                        <MetricPackInput
+                            key={idx}
+                            coreMetricPack={cp}
+                            updateMetricPackDef={updateMetricPackDef}
+                            removeMetricPackDef={removeMetricPackDef}
+                        />
+                    ))}
+
+                    {widgets.map((widget, index) => (
+                        <WidgetDisplay removeWidget={removeWidget} key={index} widget={widget} />
+                    ))}
 
 
-            </ScrollView>
+
+
+
+                </ScrollView>
+            </View>
+
 
             <Portal>
                 <WidgetBottomSheet
@@ -192,20 +195,10 @@ export default function MetricSet() {
             )}
 
             {state.mode === "edit" &&
-
-                // <Portal.Host>
-                // <FloatingActionButton
-                //     openWidgetBottomSheet={openWidgetBottomSheet}
-                // />
-
-
                 <CustomFAB
                     actions={actions}
                     fabBgColor={fabBgColor}
                 />
-                // </Portal.Host>
-
-
             }
 
 

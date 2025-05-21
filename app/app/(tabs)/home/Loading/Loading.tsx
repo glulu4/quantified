@@ -1,5 +1,7 @@
 import React, {useEffect} from 'react';
-import {ActivityIndicator, StyleSheet} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {ActivityIndicator} from 'react-native-paper'
+
 import {RouteProp, useRoute, useNavigation} from '@react-navigation/native';
 import {CommonActions} from '@react-navigation/native';
 import {Colors} from '@/constants/Colors';
@@ -10,6 +12,7 @@ import {XMark} from '@/components/XMark';
 import {useOperation} from './hooks/useOperation';
 import {HomeStackNavigationType, HomeStackParamList} from '../_layout';
 import {useForm} from '@/app/context/FormContext';
+import CenteredSpinner from '@/components/CenteredSpinner';
 
 type LoadingRouteProp = RouteProp<HomeStackParamList, 'Loading/Loading'>;
 
@@ -53,7 +56,8 @@ export default function Loading() {
     return (
       <ThemedView style={styles.screen}>
         <ActivityIndicator size={30} color={Colors.primary} />
-        <ThemedText type="title3">{status}</ThemedText>
+
+        <ThemedText labelType='primary' type="title3">{status}</ThemedText>
       </ThemedView>
     );
   }

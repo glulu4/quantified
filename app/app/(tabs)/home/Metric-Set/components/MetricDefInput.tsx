@@ -88,7 +88,7 @@ const MetricDefInput = ({coreMetric, updateMetricDef, removeMetricDef}: MetricDe
                 </TouchableOpacity>}
 
             </View>
-            <ThemedView className='flex flex-1 p-2 rounded-xl mb-3' backGroundLevel='bgSecondary'>
+            <View className='flex flex-1 p-2 rounded-xl mb-3 bg-bgSecondary-light dark:bg-bgSecondary-dark'>
 
                 <View
                     className="flex flex-1 flex-col p-3 justify-between "
@@ -102,7 +102,7 @@ const MetricDefInput = ({coreMetric, updateMetricDef, removeMetricDef}: MetricDe
 
                     </View>
                 </View>
-            </ThemedView>
+            </View>
         </View>
 
     );

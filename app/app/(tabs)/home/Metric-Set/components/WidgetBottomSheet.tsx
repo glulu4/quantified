@@ -53,6 +53,13 @@ export default function WidgetBottomSheet({
         bottomSheetRef.current?.close();
     }
 
+    function isDisabled(metricDef: MetricDefinition, type: WidgetType) {
+
+        // when i want to add progress widgets, remove this logic
+        return (type === WidgetType.ORBIT || type === WidgetType.PROGRESS_LINES) || isWidgetSelected(metricDef, type);
+
+    }
+
     const renderMetricDefWidgets = (metricDefs: MetricDefinition[]) => {
         return metricDefs.map((metricDef, index) => {
             return (
@@ -76,18 +83,18 @@ export default function WidgetBottomSheet({
                             {getWidgetsTypes(metricDef).map((type, idx) => (
                                 <View key={idx} className='my-2 mx-10'>
                                     <TouchableOpacity
-                                        disabled={isWidgetSelected(metricDef, type)}
+                                        disabled={isDisabled(metricDef, type)}
                                         onPress={() => onAddWidget(metricDef, type)}
                                     >
-                                        {renderWidget(type, "in-bottom-sheet", isWidgetSelected(metricDef, type))}
+                                        {renderWidget(type, "in-bottom-sheet", isDisabled(metricDef, type))}
                                     </TouchableOpacity>
 
                                 </View>
 
                             ))}
                         </ScrollView>
-                    </View>
-                </View>
+                    </View >
+                </View >
             );
         });
     }

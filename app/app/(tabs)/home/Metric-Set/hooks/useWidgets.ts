@@ -64,6 +64,20 @@ export const useWidgets = () => {
 
     }
 
+
+    // function isWidgetSelected(metricDef: MetricDefinition, widgetType: WidgetType) {
+    //     const widgets = getAllItems(widgetMap);
+    //     console.log("Checking for:", metricDef.id, widgetType);
+    //     for (let widget of widgets) {
+    //         console.log("Existing widget:", widget.metricDefinitionIds, widget.widgetType);
+    //     }
+    //     return widgets.some((widget) =>
+    //         widget.metricDefinitionIds.includes(metricDef.id) &&
+    //         widget.widgetType === widgetType
+    //     );
+    // }
+
+
     return {
         isWidgetSelected,
         addWidget,

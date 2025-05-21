@@ -18,9 +18,7 @@ import {SFSymbol} from 'react-native-sfsymbols';
 import FavoriteCard from './components/FavoriteCard';
 import ThemedView from '@/components/ThemedView';
 import {remapProps, verifyInstallation, } from 'nativewind';
-import Button from '@/components/Button';
-import Toast from "react-native-toast-message";
-import {errorToast} from '@/utils/toastUtils';
+
 
 export default function HomeScreen() {
     Sentry.captureMessage("This is an info message", "info");
@@ -89,7 +87,7 @@ export default function HomeScreen() {
                         />
 
                         {/* Favorites Section */}
-                        <View className='pt-8 px-6'>
+                        {/* <View className='pt-8 px-6'>
                             <ThemedText
                                 labelType='primary'
                                 className='mb-6 pl-2'
@@ -102,7 +100,7 @@ export default function HomeScreen() {
                             <FavoriteCard
                                 onPress={goToAddForm} // You can change this if needed
                             />
-                        </View>
+                        </View> */}
 
                     </View>
 
