@@ -1,6 +1,7 @@
-import {CoreInputType, CoreMetricPack, MetricPackType} from "@/types/core-metric";
+import {CoreMetricPack, MetricPackType} from "@/types/coremetric-pack";
 import {staticNutritionPackMDs} from "./nutrition-pack-defs";
 import {SFSymbol} from "react-native-sfsymbols";
+import {CoreInputType} from "@/types/core-input";
 
 
 

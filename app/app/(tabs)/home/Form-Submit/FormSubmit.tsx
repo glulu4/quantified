@@ -24,10 +24,10 @@ import {NutritionPackState, NutritionPackItems} from '../../../../types/store-ty
 import {getAllItems, getNewItems, getUpdatedItems} from '@/types/status-item';
 import * as Crypto from 'expo-crypto';
 import {Timestamp} from 'firebase/firestore';
-import {MetricPackType} from '@/types/core-metric';
 import {useAuthenticatedUser} from '@/app/context/AuthContext';
 import {Food, FoodCombination, UserFood} from '@/types/food';
 import WidgetDisplay from './components/WidgetDisplay';
+import {MetricPackType} from '@/types/coremetric-pack';
 
 
 type FormSubmitRouteProp = RouteProp<HomeStackParamList, "Form-Submit/FormSubmit">;

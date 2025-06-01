@@ -18,6 +18,7 @@ import {useThemeColor} from "@/hooks/useThemeColor";
 import {useForm} from "@/app/context/FormContext";
 import {getAllItems, getNewItems, getOldItems} from "@/types/status-item";
 import {generateRecordPackId2MetricDefs} from "./util/util";
+import {ScrollView} from "react-native-gesture-handler";
 
 export type FormCreateRouteProp = RouteProp<HomeStackParamList, "Form-Create/FormCreate">;
 
@@ -236,81 +237,117 @@ export default function FormCreate() {
     }
 
 
+    function onSelectItem(type: "icon" | "color", itemName: string) {
+        if (type === "icon") {
+
+
+            // if no icon is found, remove
+            if (itemName === selectedIcon) {
+                setSelectedIcon("");
+            }
+            else {
+                setSelectedIcon(itemName);
+            }
+
+        } else if (type === "color") {
+            // if no color is found, remove
+            if (itemName === selectedColor) {
+                setSelectedColor("");
+            }
+            else {
+                setSelectedColor(itemName);
+            }
+        }
+
+    }
+
+
     return (
-        <ThemedView className="flex flex-1 flex-col px-1 py-2">
+        <ThemedView className="flex flex-1 flex-col ">
             {/* Header */}
-            <View className='px-8 flex flex-col flex-1'>
-                <ThemedText
-                    labelType='primary'
-                    type='headline'
-                    emphasized
-                    className='text-left py-2'
-                >
-                    Form Title
-                </ThemedText>
-                <ThemedView
-                    backGroundLevel='bgSecondary'
-                    className='px-6 min-h-[70px] flex flex-row items-center justify-between rounded-xl overflow-hidden'
 
-                >
-                    <ThemedTextInput
-                        className="flex-1"
-                        labelType="primary"
-                        value={formTitle}
-                        onChangeText={setFormTitle}
-                        placeholder='Enter name' />
-                </ThemedView>
+            <ScrollView
+                contentContainerStyle={{
 
-            </View>
-
-            {/* Icon Selection */}
-            <SelectSlider
-                data={icons}
-                title="Select Icon"
-                type="icon"
-                selectedItem={selectedIcon}
-                setSelectedItem={setSelectedIcon}
-            />
-
-            {/* Color Selection */}
-            <SelectSlider
-                data={formColors}
-                title="Select Card Color"
-                type="color"
-                selectedItem={selectedColor}
-                setSelectedItem={setSelectedColor}
-            />
-
-            {/* Live Preview */}
-            <View className="mt-6 flex flex-col w-full">
-                <ThemedText
-                    labelType="primary"
-                    type="headline"
-                    emphasized
-                    className="pb-2 px-8"
-                >
-                    Live Preview
-                </ThemedText>
-                <View
-                    style={{backgroundColor: selectedColor || defaultFormColor, width: "90%"}} // Default blue background
-                    className={clsx(
-
-                        "self-center",
-                        " mx-8 h-[150px] rounded-xl flex flex-row items-center justify-between shadow-md"
-                    )}
-                >
-                    <ThemedText type="title1" className="absolute top-8 left-8" labelType="primary" emphasized>
-                        {formTitle || "My form"}
+                }}
+            >
+                <View className='px-8 flex flex-col flex-1 mt-8'>
+                    <ThemedText
+                        labelType='primary'
+                        type='headline'
+                        emphasized
+                        className='text-left py-2'
+                    >
+                        Form Title
                     </ThemedText>
+                    <ThemedView
+                        backGroundLevel='bgSecondary'
+                        className='px-6 min-h-[70px] flex flex-row items-center justify-between rounded-xl overflow-hidden'
 
-                    {/* Display Selected Icon */}
-                    {selectedIcon ? (
-                        <View className="absolute bottom-8 right-8">
-                            {getIcon()?.icon}
-                        </View>
-                    ) : null}
+                    >
+                        <ThemedTextInput
+                            className="flex-1"
+                            labelType="primary"
+                            value={formTitle}
+                            onChangeText={setFormTitle}
+                            placeholder='Enter name' />
+                    </ThemedView>
+
                 </View>
-            </View>
+
+                {/* Icon Selection */}
+                <SelectSlider
+                    data={icons}
+                    title="Select Icon"
+                    type="icon"
+                    selectedItem={selectedIcon}
+                    onSelectItem={onSelectItem}
+                    className="mt-8"
+
+                />
+
+                {/* Color Selection */}
+                <SelectSlider
+                    data={formColors}
+                    title="Select Card Color"
+                    type="color"
+                    selectedItem={selectedColor}
+                    onSelectItem={onSelectItem}
+                    className="mt-8"
+                />
+
+                {/* Live Preview */}
+                <View className="mt-8  flex flex-col w-full">
+                    <ThemedText
+                        labelType="primary"
+                        type="headline"
+                        emphasized
+                        className="pb-2 px-8"
+                    >
+                        Live Preview
+                    </ThemedText>
+                    <View
+                        style={{backgroundColor: selectedColor || defaultFormColor, width: "90%"}} // Default blue background
+                        className={clsx(
+
+                            "self-center",
+                            " mx-8 h-[150px] rounded-xl flex flex-row items-center justify-between shadow-md"
+                        )}
+                    >
+                        <ThemedText type="title1" className="absolute top-8 left-8" labelType="primary" emphasized>
+                            {formTitle || "My form"}
+                        </ThemedText>
+
+                        {/* Display Selected Icon */}
+                        {selectedIcon ? (
+                            <View className="absolute bottom-8 right-8">
+                                {getIcon()?.icon}
+                            </View>
+                        ) : null}
+                    </View>
+                </View>
+
+            </ScrollView>
         </ThemedView>
     );
 }

@@ -65,6 +65,7 @@ export const SUBTAGS = {
         'Imaging',
         'Survey',
         'Scale',
+        "Food lookup",
         'App integration',
     ] as const,
 
@@ -83,10 +84,12 @@ export const SUBTAGS = {
         'Nutrition & Hydration',
         'Social',
         'Emotional',
-        'Financial',
         'Spiritual',
         'Intellectual',
         'Environmental',
+        'Reproductive Health',
+        "Pain Management",
+
     ] as const,
 
     'Area of Optimization': [
@@ -103,6 +106,7 @@ export const SUBTAGS = {
         'Metabolic Health',
         'Hormonal Balance',
         'Immune Resilience',
+        "Digestion",
     ] as const,
 
     'Trending Topics': [
@@ -114,6 +118,7 @@ export const SUBTAGS = {
         'Metabolic Health',
         'Sleep Optimization',
         'Mental Health',
+        'Fitness & Performance',
     ] as const,
 } satisfies Record<Tag, readonly string[]>;
 
@@ -121,7 +126,21 @@ export const SUBTAGS = {
 export type SubtagsMap = typeof SUBTAGS;
 export type SubtagOf<T extends Tag> = SubtagsMap[T][number];
 
+export type SubTag = SubtagOf<Tag>;
 
+
+// export interface FilterTag {
+//     tag: Tag;
+//     subtag: SubtagsMap[Tag][number];
+// }
+
+// All possible subtag values as a union type
+export type AllSubtags = SubtagsMap[Tag][number];
 
 // Enumerate all subtags for a tag at runtime (e.g. to build a dropdown):
 // const bodySystemOptions: readonly SubtagOf<'Body System'>[] = SUBTAGS['Body System'];
+
+
+// {tag: "Body System", subtag: "Thyroid"},
+//             {tag: "Body System", subtag: "Bone"},
+

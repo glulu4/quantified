@@ -32,8 +32,15 @@ const TopForms = ({topForms, loading, onPress, onDelete, error}: TopFormsProps) 
 
     if (topForms.length === 0) {
         return (
-            <View className='flex-1 gap-2 flex-col-reverse justify-between items-center mt-16'>
+            <View className='gap-2 flex-col  h-full justify-between items-center mt-16'>
 
+
+
+                <SFSymbol
+                    name='ecg.text.page'
+                    size={40}
+                    color={noFormIconColor}
+                />
 
                 <ThemedText
                     type='title3'
@@ -42,14 +49,7 @@ const TopForms = ({topForms, loading, onPress, onDelete, error}: TopFormsProps) 
                     No forms to display
                 </ThemedText>
 
-                <View>
-                    <SFSymbol
-                        name='ecg.text.page'
-                        size={40}
-                        color={noFormIconColor}
-                    />
 
-                </View>
             </View>
         )
     }

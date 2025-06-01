@@ -4,6 +4,7 @@ import {ThemedText} from '@/components/ui/ThemedText'
 import Circle from './Circle';
 import {remapProps} from 'nativewind';
 import {FormColor, FormIcon, useFormStyle} from '@/hooks/useFormStyle';
+import clsx from 'clsx';
 
 
 interface SelectSliderProps {
@@ -11,7 +12,9 @@ interface SelectSliderProps {
     title: string;
     type: "icon" | "color";
     selectedItem: string;
-    setSelectedItem: Dispatch<SetStateAction<string>>;
+    onSelectItem(type: "icon" | "color", itemName: string): void;
+    className?: string;
+
 }
 
 export default function SelectSlider({
@@ -19,7 +22,8 @@ export default function SelectSlider({
     title,
     type,
     selectedItem,
-    setSelectedItem
+    onSelectItem,
+    className = "",
 }: SelectSliderProps) {
 
 
@@ -37,7 +41,7 @@ export default function SelectSlider({
                     <Circle
                         icon={iconObj.icon}
                         selected={isSelected(iconObj.name)}
-                        onPress={() => setSelectedItem(iconObj.name)}
+                        onPress={() => onSelectItem(type, iconObj.name)}
                     />
                 </View>
             ))
@@ -52,7 +56,7 @@ export default function SelectSlider({
                     <Circle
                         color={colorObj.color}
                         selected={isSelected(colorObj.color)}
-                        onPress={() => setSelectedItem(colorObj.color)}
+                        onPress={() => onSelectItem(type, colorObj.color)}
                     />
                 </View>
             ))
@@ -60,7 +64,7 @@ export default function SelectSlider({
     }
 
     return (
-        <View className='px-8 flex flex-col flex-1'>
+        <View className={clsx('px-8 flex flex-col flex-1', className)}>
             <View className='flex flex-row gap-4 items-center'>
                 <ThemedText
                     labelType='primary'

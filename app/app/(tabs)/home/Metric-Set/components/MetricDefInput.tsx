@@ -3,12 +3,12 @@ import React from 'react';
 import {DropdownMetricDefinition, MetricDefinition} from '@/types/formdefinition';
 import ThemedView from '@/components/ThemedView';
 import {ThemedText} from '@/components/ui/ThemedText';
-import {CoreMetric} from '@/types/core-metric';
 import UnitSelector from './UnitSelector';
 import InputSelectorCm from './InputSelectorCm';
 import {SFSymbol} from 'react-native-sfsymbols';
 import {useThemeColor} from '@/hooks/useThemeColor';
 import {useForm} from '@/app/context/FormContext';
+import {CoreMetric} from '@/types/coremetric';
 
 
 interface MetricDefInputProps {

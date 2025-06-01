@@ -166,6 +166,14 @@ export default function FormAndMetricList({
         );
     }
 
+    if (formDefinitions.length === 0) {
+        return (
+            <View className='flex-1 justify-center items-center p-14'>
+                <ThemedText labelType='primary'>No forms available</ThemedText>
+            </View>
+        );
+    }
+
     // Convert search text to lower case for case-insensitive filtering.
     const lowerCaseSearchText = searchText.toLowerCase();
 
@@ -191,6 +199,17 @@ export default function FormAndMetricList({
 
         if (loadingMetricDefs) {
             return <CenteredSpinner />;
+        }
+
+
+        if (metricDefinitions?.length === 0) {
+            return (
+                <View className="flex flex-col items-center justify-center w-full h-full">
+                    <ThemedText labelType="primary" className="text-lg">
+                        No metrics available
+                    </ThemedText>
+                </View>
+            );
         }
 
         // if (!metricDefinitions || metricDefinitions.length === 0) {

@@ -4,11 +4,8 @@ import {useThemeColor} from '@/hooks/useThemeColor';
 import {ThemedText} from '@/components/ui/ThemedText';
 import {SFSymbol} from 'react-native-sfsymbols';
 import {CoreMetric, CoreMetricPack} from '@/types/core-metric';
-import {spacing} from '@/constants/Spacing';
 
 interface MetricDeleteRowProps {
-
-
     item: CoreMetric | CoreMetricPack;
     onDelete: (item: CoreMetric | CoreMetricPack) => void
 }
@@ -23,7 +20,7 @@ const MetricDeleteRow = ({item, onDelete}: MetricDeleteRowProps) => {
         <View >
             <View className='flex flex-row justify-between items-center'>
                 <View className='flex flex-col py-3'>
-                    <ThemedText type="headline">
+                    <ThemedText labelType='primary' type="headline">
                         {title}
                     </ThemedText>
                     <ThemedText labelType='secondary' type="footnote" className='mt-2'>

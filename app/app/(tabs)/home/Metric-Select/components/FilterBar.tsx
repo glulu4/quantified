@@ -1,20 +1,20 @@
 import React, {useState} from "react";
 import {ScrollView, TouchableOpacity, View, Text, StyleSheet} from "react-native";
 import {SFSymbol} from "react-native-sfsymbols";
-import {TopLevelFilter, Interest, BodyPart, Wellness, HealthCategory, Goal} from "@/types/core-metric";
 import {spacing} from '@/constants/Spacing';
 import PillButton from "@/components/PillButton";
 import iconSizes from "@/constants/iconSizes";
 import {useThemeColor} from "@/hooks/useThemeColor";
+import {SubTag} from "@/types/tags";
 
 interface FilterBarProps {
-    selectedFilters: (Interest | BodyPart | HealthCategory | Goal | Wellness)[];
+    selectedSubTags: SubTag[];
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    toggleFilter: (category: Interest | BodyPart | Wellness | HealthCategory | Goal) => void;
-    isFilterSelected: (category: Interest | BodyPart | Wellness | HealthCategory | Goal) => boolean;
-    defaultFilters: (Interest | BodyPart | Wellness | HealthCategory | Goal)[];
+    toggleSubTag: (subtag: SubTag) => void;
+    isSubTagSelected: (subtag: SubTag) => boolean;
+    defaultSubTags: SubTag[];
 }
-const FilterBar = ({isFilterSelected, setDrawerOpen, toggleFilter, selectedFilters, defaultFilters}: FilterBarProps) => {
+const FilterBar = ({isSubTagSelected, setDrawerOpen, toggleSubTag, selectedSubTags, defaultSubTags}: FilterBarProps) => {
 
 
     const iconColor = useThemeColor({}, "labelPrimary");
@@ -43,12 +43,12 @@ const FilterBar = ({isFilterSelected, setDrawerOpen, toggleFilter, selectedFilte
                 className="flex flex-row px-3"
                 horizontal
             >
-                {defaultFilters.map((category, index) => (
+                {defaultSubTags.map((subtag, index) => (
                     <PillButton
                         key={index}
-                        text={category}
-                        selected={isFilterSelected(category)}
-                        onPress={() => toggleFilter(category)}
+                        text={subtag}
+                        selected={isSubTagSelected(subtag)}
+                        onPress={() => toggleSubTag(subtag)}
                     />
                 ))}
             </ScrollView>

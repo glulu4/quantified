@@ -1,4 +1,4 @@
-import {CoreInputType} from "@/types/core-metric";
+import {CoreInputType} from "@/types/core-input";
 import {WidgetType} from "@/types/formdefinition";
 import {GraphType} from "@/types/graph";
 

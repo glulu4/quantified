@@ -2,13 +2,13 @@ import {View, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import React from 'react';
 import ThemedView from '@/components/ThemedView';
 import {ThemedText} from '@/components/ui/ThemedText';
-import {CoreMetric, CoreMetricPack} from '@/types/core-metric';
 
 import InputSelectorCp from './InputSelectorCp';
 import {MetricPackDefinition} from '@/types/formdefinition';
 import {useForm} from '@/app/context/FormContext';
 import {SFSymbol} from 'react-native-sfsymbols';
 import {useThemeColor} from '@/hooks/useThemeColor';
+import {CoreMetricPack} from '@/types/coremetric-pack';
 
 
 interface MetricPackInputProps {

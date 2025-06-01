@@ -106,7 +106,7 @@ export default function SignIn() {
 
       <View className='self-center flex flex-row pt-12 gap-8' >
         <Button text='Sign In' onPress={goToLoading} />
-        <Button text='Gabby' onPress={() => goToLoading("gabby")} />
+        {/* <Button text='Gabby' onPress={() => goToLoading("gabby")} /> */}
 
       </View>
 

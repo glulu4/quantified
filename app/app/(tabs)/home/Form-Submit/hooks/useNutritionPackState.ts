@@ -1,9 +1,9 @@
 import {usePackStatesStore} from "../../Form-Submit/stores/useStore";
 import {NutritionPackState} from "../../../../../types/store-types";
-import {MetricPackType} from "@/types/core-metric";
 import {StatusItem} from "@/types/status-item";
 import {useCallback} from "react";
 import {FoodItem, Food, FoodCombination, FoodItemType, UserFood, FoodItemStatus} from "@/types/food";
+import {MetricPackType} from "@/types/coremetric-pack";
 
 export function useNutritionPackState(packId: string) {
     // Subscribe to the current nutrition pack state

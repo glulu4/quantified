@@ -38,14 +38,14 @@ export default function MetricSelect() {
     } = useMetricSelectLogic();
 
     const {
-        selectedFilters,
+
+        selectedSubTags,
         searchValue,
         setSearchValue,
-        toggleFilter,
-        isFilterSelected,
-
+        toggleSubTag,
+        isSubTagSelected,
         filteredMetrics,
-        defaultFilters,
+        defaultSubTags
     } = useFilters();
 
 
@@ -114,11 +114,11 @@ export default function MetricSelect() {
             </View>
 
             <FilterBar
-                selectedFilters={selectedFilters}
+                selectedSubTags={selectedSubTags}
                 setDrawerOpen={setDrawerOpen}
-                toggleFilter={toggleFilter}
-                isFilterSelected={isFilterSelected}
-                defaultFilters={defaultFilters}
+                toggleSubTag={toggleSubTag}
+                isSubTagSelected={isSubTagSelected}
+                defaultSubTags={defaultSubTags}
             />
 
             <MetricList
@@ -136,8 +136,8 @@ export default function MetricSelect() {
                 isDrawerOpen && (
                     <LeftDrawer isVisible={isDrawerOpen} onClose={() => setDrawerOpen(false)}>
                         <DrawerContent
-                            isFilterSelected={isFilterSelected}
-                            toggleFilter={toggleFilter}
+                            isSubTagSelected={isSubTagSelected}
+                            toggleSubTag={toggleSubTag}
                         />
                     </LeftDrawer>
                 )

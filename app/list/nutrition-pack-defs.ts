@@ -1,6 +1,7 @@
 import {Timestamp} from 'firebase/firestore';
-import {CoreInputType, CoreUnitType} from '@/types/core-metric';
 import {MetricDefinition} from '@/types/formdefinition';
+import {CoreInputType} from '@/types/core-input';
+import {CoreUnitType} from '@/types/core-unit';
 
 const now: Timestamp = Timestamp.now();
 

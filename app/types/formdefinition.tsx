@@ -1,8 +1,10 @@
 
 import {Timestamp} from '@google-cloud/firestore';
-import {CoreInputType, CoreUnitType, MetricPackType} from './core-metric';
 import {PackState} from './store-types';
 import {MealTime} from './food';
+import {MetricPackType} from './coremetric-pack';
+import {CoreInputType} from './core-input';
+import {CoreUnitType} from './core-unit';
 
 export interface FormDefinition {
     id: string;

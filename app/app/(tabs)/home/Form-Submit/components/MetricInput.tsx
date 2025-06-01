@@ -1,7 +1,6 @@
 import {View, Text, useColorScheme} from 'react-native'
 import React, {useState} from 'react'
 import ThemedView from '@/components/ThemedView';
-import {CoreInputType, CoreUnitType} from '@/types/core-metric';
 import InputRow from '@/components/ui/InputRow';
 import ThemedTextInput from '@/components/ui/ThemedTextInput';
 import {ThemedText} from '@/components/ui/ThemedText';
@@ -16,6 +15,7 @@ import FractionInput from './FractionInput';
 import DateRangeInput from './DateRangeInput';
 import DateInput from './DateInput';
 import TimeInput from './TimeInput';
+import {CoreInputType} from '@/types/core-input';
 
 interface MetricInputProps {
     // inputType: CoreInputType;

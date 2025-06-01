@@ -5,7 +5,6 @@ import {ThemedText} from '@/components/ui/ThemedText';
 import {useNavigation} from 'expo-router';
 import {HomeStackNavigationType} from '../../../_layout';
 import {usePackStatesStore} from '../../stores/useStore';
-import {MetricPackType} from '@/types/core-metric';
 import {useThemeColor} from '@/hooks/useThemeColor';
 import {List, Row} from 'react-native-ios-list';
 import {SFSymbol} from 'react-native-sfsymbols';
@@ -26,6 +25,7 @@ import * as Crypto from 'expo-crypto';
 import MixedFoodList from './MixedFoodList';
 import {FoodItem, Food, FoodCombination, FoodItemType, MealTime, UserFood} from '@/types/food';
 import {useNutritionPackState} from '../../hooks/useNutritionPackState';
+import {MetricPackType} from '@/types/coremetric-pack';
 // import FoodList, {FoodItem} from './FoodList';
 export default function NutritionPack({
     pack

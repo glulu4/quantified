@@ -1,10 +1,10 @@
-import {MetricPackType} from '@/types/core-metric';
 import {StatusItem} from '@/types/status-item';
 import {create} from 'zustand';
 import {initialNutritionState, initialSleepState} from './initial-states';
 import {NutritionState, PackState, PackStatesRecord} from '../../../../../types/store-types';
 import {SleepState} from '@/reducers/foodReducer';
 import {Food, FoodCombination, UserFood} from '@/types/food';
+import {MetricPackType} from '@/types/coremetric-pack';
 
 
 
@@ -129,21 +129,21 @@ export const usePackStatesStore = create<PackStatesStore>((set, get) => ({
     getFoods: (packId: string) => {
         const packState = get().packStates[packId];
         if (packState?.type === MetricPackType.Nutrition) {
-            return packState.data.foods;
+            return (packState.data as NutritionState).foods;
         }
         return new Map();
     },
     getUserFoods: (packId: string) => {
         const packState = get().packStates[packId];
         if (packState?.type === MetricPackType.Nutrition) {
-            return packState.data.userFoods;
+            return (packState.data as NutritionState).userFoods;
         }
         return new Map();
     },
     getFoodCombinations: (packId: string) => {
         const packState = get().packStates[packId];
         if (packState?.type === MetricPackType.Nutrition) {
-            return packState.data.foodCombinations;
+            return (packState.data as NutritionState).foodCombinations;
         }
         return new Map();
     }

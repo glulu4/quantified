@@ -5,7 +5,7 @@ import BottomSheetWrap from '@/components/BottomSheetWrap';
 import {ThemedText} from '@/components/ui/ThemedText';
 import {spacing} from '@/constants/Spacing';
 import {useThemeColor} from '@/hooks/useThemeColor';
-import {CoreInputType} from '@/types/core-metric';
+import {CoreInputType} from '@/types/core-input';
 import {SFSymbol} from 'react-native-sfsymbols';
 import Fraction from '@/components/icons/Fraction';
 import Slider from '@/components/icons/Slider';

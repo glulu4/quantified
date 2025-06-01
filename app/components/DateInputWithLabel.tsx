@@ -35,7 +35,7 @@ const DateInputWithLabel = ({label, value, setValue, className}: TextInputWithLa
             >
                 {label}
             </ThemedText>
-            <View className="flex flex-1 flex-row items-center justify-between bg-bgSecondary-light dark:bg-bgSecondary-dark py-5 rounded-xl px-3">
+            <View className="flex flex-row items-center justify-between bg-bgSecondary-light dark:bg-bgSecondary-dark py-5 rounded-xl px-3">
 
                 <ThemedText labelType='secondary' type='default' emphasized>
                     {format(value, "MMM d, yyyy")}

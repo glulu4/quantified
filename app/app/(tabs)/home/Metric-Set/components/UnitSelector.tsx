@@ -1,11 +1,12 @@
 import {View, TouchableOpacity} from "react-native";
 import React, {useEffect, useState} from "react";
-import {CoreMetric, CoreUnitType} from "@/types/core-metric";
 import ContextMenu from "react-native-context-menu-view";
 import {ThemedText} from "@/components/ui/ThemedText";
 import {DropdownMetricDefinition, MetricDefinition} from "@/types/formdefinition";
 import {useForm} from "@/app/context/FormContext";
 import Selector from "@/components/ui/Selector";
+import {CoreMetric} from "@/types/coremetric";
+import {CoreUnitType} from "@/types/core-unit";
 
 interface UnitSelectorProps {
     coreMetric: CoreMetric;

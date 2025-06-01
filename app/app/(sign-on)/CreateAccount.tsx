@@ -90,6 +90,59 @@ export default function CreateAccount() {
 
   function goNext() {
 
+    if (activeStep === 0) {
+      if (firstName.length < 2 || lastName.length < 2) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: "First name and last name must be at least 2 characters long",
+          position: 'top',
+          visibilityTime: 3000,
+          swipeable: true,
+        });
+        return;
+      }
+    }
+
+    if (activeStep === 1) {
+      if (weight.length < 1 || height.length < 1) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: "Weight and height must be at least 1 character long",
+          position: 'top',
+          visibilityTime: 3000,
+          swipeable: true,
+        });
+        return;
+      }
+    }
+    if (activeStep === 2) {
+      if (email.length < 5 || password.length < 6) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: "Email must be at least 5 characters long and password must be at least 6 characters long",
+          position: 'top',
+          visibilityTime: 3000,
+          swipeable: true,
+        });
+        return;
+      }
+      if (!email.includes('@')) {
+        Toast.show({
+          type: 'error',
+          text1: 'Error',
+          text2: "Email must be a valid email address",
+          position: 'top',
+          visibilityTime: 3000,
+          swipeable: true,
+        });
+        return;
+      }
+    }
+
+
     if (activeStep === numberOfSteps - 1) {
       goToLoading();
       return;

@@ -1,7 +1,6 @@
 import {View, Text, TouchableOpacity} from 'react-native'
 import React, {useEffect, useMemo, useRef, useState} from 'react'
 import {DropdownMetricDefinition, MetricDefinition} from '@/types/formdefinition';
-import {CoreInputType, CoreMetric} from '@/types/core-metric';
 import {ThemedText} from '@/components/ui/ThemedText';
 import BottomSheet from '@gorhom/bottom-sheet';
 import {Portal} from 'react-native-paper';
@@ -11,6 +10,8 @@ import InputBottomSheet from './InputBottomSheet';
 import Selector from '@/components/ui/Selector';
 import {useForm} from '@/app/context/FormContext';
 import {StatusItem} from '@/types/status-item';
+import {CoreInputType} from '@/types/core-input';
+import {CoreMetric} from '@/types/coremetric';
 
 interface InputSelectorProps {
     coreMetric: CoreMetric;

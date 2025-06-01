@@ -3,7 +3,7 @@ import 'dotenv/config'; // Loads environment variables from your .env file
 export default {
   expo: {
     name: "Quantified",
-    slug: "Quantified - the health tracking app",
+    slug: "Quantified - The Health Tracking App",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/images/icon.png",

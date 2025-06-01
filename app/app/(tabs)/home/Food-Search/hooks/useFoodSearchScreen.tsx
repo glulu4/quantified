@@ -8,7 +8,7 @@ import {ApiFood} from "@/services/foodDataApiTypes";
 import {convertApiFood2Food} from "../utils/util";
 import {usePackStatesStore} from "../../Form-Submit/stores/useStore";
 import {NutritionPackState, NutritionState} from "@/types/store-types";
-import {MetricPackType} from "@/types/core-metric";
+import {MetricPackType} from "@/types/coremetric-pack";
 
 
 export type ApiFoodManager = {
@@ -176,12 +176,21 @@ export function useFoodSearchScreen(uid: string, packId: string) {
 
         const foods: Food[] = convertApiFood2Food(apiFoodManager.selectedApiFoods, uid);
 
+        console.log("Selected API Foods to be added: ", foods);
+
+
         for (const food of foods) {
             addToMap(foodMap, setFoodMap, food, "new");
         }
 
+        // creating a new map because setting state directly is async
+        const localFoodMap: Map<string, StatusItem<Food>> = new Map();
+        foods.forEach((food, idx) => {
+            localFoodMap.set(food.id, {value: food, status: "new"});
+        });
+
         const updatedNutritionState: Partial<NutritionState> = {
-            foods: new Map(foodMap),
+            foods: localFoodMap,
             userFoods: new Map(userFoodMap),
             foodCombinations: new Map(foodCombinationMap),
         };

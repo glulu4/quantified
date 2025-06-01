@@ -10,8 +10,6 @@ import {Provider} from 'react-native-paper';
 import {EventProvider} from 'react-native-outside-press';
 import Toast, {BaseToast} from 'react-native-toast-message';
 import {SafeAreaProvider} from "react-native-safe-area-context"
-import {View} from 'react-native-reanimated/lib/typescript/Animated';
-import {Text} from 'react-native';
 import {useThemeColor} from '@/hooks/useThemeColor';
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();

@@ -1,4 +1,4 @@
-import {User} from '@/types/graph';
+import {User} from "@/types/user";
 
 
 // Define the types for actions

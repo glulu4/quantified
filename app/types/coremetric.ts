@@ -1,14 +1,20 @@
 // Assuming you already have:
 
-import {CoreInputType, CoreUnitType} from "./core-metric";
+import {CoreInputType} from "./core-input";
+import {CoreUnitType} from "./core-unit";
 import {SubtagOf, Tag} from "./tags";
 
 
 /** One filter entry: a top‐level Tag and one of its allowed Subtags */
-export interface MetricFilter<T extends Tag = Tag> {
-    tag: T;
-    subtag: SubtagOf<T>;
-}
+// export interface MetricFilter<T extends Tag = Tag> {
+//     tag: T;
+//     subtag: SubtagOf<T>;
+// }
+
+export type MetricFilter = {
+    [K in Tag]: {tag: K; subtag: SubtagOf<K>}
+}[Tag];
+
 
 /** A single “core metric” definition */
 export interface CoreMetric {
