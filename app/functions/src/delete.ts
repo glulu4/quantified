@@ -4,6 +4,7 @@ import db from "./converter";
 import * as logger from "firebase-functions/logger";
 // import {removeFolderFromUser} from "./update";
 import {Timestamp} from "firebase-admin/firestore";
+import {getAuth} from "firebase-admin/auth";
 import {
   MetricDefinition,
   MetricPackDefinition,
@@ -204,6 +205,33 @@ exports.deleteGraph = onCall(async (request) => {
     throw new functions.https.HttpsError(
       "internal",
       "Unable to delete graph",
+      error
+    );
+  }
+});
+
+exports.deleteUser = onCall(async (request) => {
+  const uid: string = request.data;
+
+  if (!uid) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "User id must be provided"
+    );
+  }
+
+  try {
+    await getAuth().deleteUser(uid);
+    await db.users.doc(uid).update({deletedAt: Timestamp.now()});
+    return {
+      message: "User deleted successfully",
+      success: true,
+    };
+  } catch (error) {
+    logger.error("error in deleteUser: ", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Unable to delete user",
       error
     );
   }

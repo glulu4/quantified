@@ -156,6 +156,7 @@ import {List, Row} from 'react-native-ios-list';
 import {User} from '@/types/user';
 import {format} from 'date-fns';
 import {ScrollView} from 'react-native-gesture-handler';
+import {deleteUserAccount} from '@/cloudfunctions/deleteFunctions';
 
 export default function Account() {
     const user: User = useAuthenticatedUser();
@@ -191,6 +192,24 @@ export default function Account() {
 
     ];
 
+    const handleDeleteAccount = () => {
+        Alert.alert('Delete Account', 'Are you sure you want to delete your account?', [
+            {text: 'Cancel', style: 'cancel'},
+            {
+                text: 'Delete',
+                style: 'destructive',
+                onPress: async () => {
+                    const success = await deleteUserAccount(user.uid);
+                    if (success) {
+                        logout();
+                    } else {
+                        Alert.alert('Error', 'Failed to delete account');
+                    }
+                },
+            },
+        ]);
+    };
+
     const actions = [
         {
             title: 'Edit Profile',
@@ -213,9 +232,7 @@ export default function Account() {
         },
         {
             title: 'Delete Account',
-            onPress: () => {
-                Alert.alert('Delete Account', 'Delete Account action triggered');
-            },
+            onPress: handleDeleteAccount,
             isDestructive: true,
         },
     ];
