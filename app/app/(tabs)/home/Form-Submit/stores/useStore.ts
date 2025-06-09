@@ -12,6 +12,7 @@ type PackStatesStore = {
     packStates: PackStatesRecord;
     addPackState: (packId: string, packType: MetricPackType) => void;
     addPackStates: (packArray: {id: string; type: MetricPackType}[]) => void;
+    clearPackStates: () => void;
     // getPackState: (packId: string) => PackState | undefined;
     getPackState: <T extends PackState>(
         packId: string,
@@ -105,6 +106,10 @@ export const usePackStatesStore = create<PackStatesStore>((set, get) => ({
             });
             return {packStates: newPackStates};
         });
+    },
+
+    clearPackStates: () => {
+        set({packStates: {}});
     },
 
     updatePackState: (packId, newData) => {

@@ -12,6 +12,7 @@ import {XMark} from '@/components/XMark';
 import {useOperation} from './hooks/useOperation';
 import {HomeStackNavigationType, HomeStackParamList} from '../_layout';
 import {useForm} from '@/app/context/FormContext';
+import {usePackStatesStore} from '../Form-Submit/stores/useStore';
 import CenteredSpinner from '@/components/CenteredSpinner';
 
 type LoadingRouteProp = RouteProp<HomeStackParamList, 'Loading/Loading'>;
@@ -28,9 +29,10 @@ export default function Loading() {
   const resetToHome = async () => {
     await delay(1500); // 1.5-second animation delay
     dispatch({type: "CLEAR_STATE"});
+    usePackStatesStore.getState().clearPackStates();
     navigation.dispatch(CommonActions.reset({
       index: 0,
-      routes: [{name: 'index'}], // make this go to the home screen 
+      routes: [{name: 'index'}], // make this go to the home screen
     }));
   };
 
