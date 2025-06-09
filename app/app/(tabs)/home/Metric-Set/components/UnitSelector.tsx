@@ -7,6 +7,7 @@ import {useForm} from "@/app/context/FormContext";
 import Selector from "@/components/ui/Selector";
 import {CoreMetric} from "@/types/coremetric";
 import {CoreUnitType} from "@/types/core-unit";
+import {unitToInput} from "@/utils/unitInputHelpers";
 
 interface UnitSelectorProps {
     coreMetric: CoreMetric;
@@ -21,16 +22,12 @@ const UnitSelector = ({coreMetric, updateMetricDef}: UnitSelectorProps) => {
 
 
     useEffect(() => {
-
-
         const hasCm = state.metricDefMap.has(coreMetric.id);
         if (hasCm) {
-
             const mdStatusItem = state.metricDefMap.get(coreMetric.id)!;
             setSelectedUnit(mdStatusItem.value.unitType);
         }
-
-    }, [coreMetric]);
+    }, [coreMetric, state.metricDefMap]);
 
     return (
         <>
@@ -44,8 +41,12 @@ const UnitSelector = ({coreMetric, updateMetricDef}: UnitSelectorProps) => {
                     const selected: string = e.nativeEvent.name;
                     if (selected) {
                         setSelectedUnit(selected);
+                        const input = unitToInput(selected as CoreUnitType);
+                        updateMetricDef(coreMetric.id, {
+                            unitType: selected as CoreUnitType,
+                            inputType: input,
+                        });
                     }
-                    updateMetricDef(coreMetric.id, {unitType: selected as CoreUnitType});
 
                 }}
             >
