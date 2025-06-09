@@ -126,3 +126,7 @@ export const deleteFormDefinition = async (id: string): Promise<boolean> => {
 export const deleteGraph = async (chartId: string): Promise<boolean> => {
   return fetchFirestoreData<boolean, string>(chartId, 'delete-deleteGraph');
 };
+
+export const deleteUserAccount = async (uid: string): Promise<boolean> => {
+  return fetchFirestoreData<boolean, string>(uid, 'delete-deleteUser');
+};

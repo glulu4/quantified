@@ -1,6 +1,6 @@
 import {StatusItem} from "./status-item";
-import {MetricPackType} from "./core-metric";
 import {Food, FoodCombination, MealTime, UserFood} from "./food";
+import {MetricPackType} from "./coremetric-pack";
 
 
 export interface NutritionState {

@@ -1,7 +1,7 @@
 import {ApiFood} from "../services/foodDataApiTypes";
-import {CoreMetric} from "./core-metric";
 import {Timestamp} from '@google-cloud/firestore';
 import {FormDefinition, MetricDefinition, MetricSubmission} from "./formdefinition";
+import {CoreMetric} from "./coremetric";
 
 
 export interface NutritionFormDefinition extends FormDefinition {

@@ -38,7 +38,6 @@ export function createTimestampFromObject(obj: any): Timestamp {
     logger.info("seconds: ", seconds);
     logger.info("nanoseconds: ", nanoseconds);
     return new Timestamp(seconds as number, nanoseconds as number);
-
   } catch (error) {
     logger.error("Error creating Timestamp", error);
     throw new Error("Invalid Timestamp object");
