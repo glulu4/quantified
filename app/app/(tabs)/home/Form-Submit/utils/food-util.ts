@@ -1,7 +1,7 @@
 import {usePackStatesStore} from "../stores/useStore";
 import {NutritionPackState} from "../../../../../types/store-types";
-import {MetricPackType} from "@/types/core-metric";
 import {Food, FoodCombination, FoodItemType, Nutrient, UserFood} from "@/types/food";
+import {MetricPackType} from "@/types/coremetric-pack";
 
 
 

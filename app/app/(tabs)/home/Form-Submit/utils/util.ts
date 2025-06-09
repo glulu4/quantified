@@ -1,6 +1,4 @@
-import {metrics} from "@/list/core-metric-list";
 import {corePackList} from "@/list/core-pack-list";
-import {CoreMetric, CoreMetricPack, MetricPackType} from "@/types/core-metric";
 import {MetricDefinition, MetricPackDefinition, MetricPackSubmission, MetricSubmission, NutritionPackSubmission, Widget} from "@/types/formdefinition";
 import {getAllItems, StatusItem} from "@/types/status-item";
 import {NutritionPackState, PackState, PackStatesRecord} from "../../../../../types/store-types";
@@ -12,6 +10,9 @@ import isEqual from "lodash/isEqual";
 import {usePackStatesStore} from "../stores/useStore";
 import {gatherNutrients} from "./food-util";
 import {Food, FoodCombination, Nutrient, UserFood} from "@/types/food";
+import {CoreMetricPack, MetricPackType} from "@/types/coremetric-pack";
+import {CoreMetric} from "@/types/coremetric";
+import {CoreMetricList} from "@/list/coremetric-list";
 
 export function generatePackSubmissions(
     packId2Submissions: Record<string, MetricSubmission[]>,
@@ -158,7 +159,7 @@ export function getCoreMetrics(metricDefinitions: MetricDefinition[]): CoreMetri
     if (!metricDefinitions || metricDefinitions.length === 0) {
         return [];
     }
-    const coreMetrics = metrics;
+    const coreMetrics = CoreMetricList;
     let foundCms: CoreMetric[] = []
 
     metricDefinitions.forEach((md) => {

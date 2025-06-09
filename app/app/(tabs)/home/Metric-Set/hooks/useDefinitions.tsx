@@ -1,11 +1,12 @@
 import {useEffect, useMemo, useRef} from 'react';
 import {Timestamp} from 'firebase/firestore';
 import * as Crypto from 'expo-crypto';
-import {CoreMetric, CoreMetricPack, MetricPackType} from '@/types/core-metric';
 import {DropdownMetricDefinition, MetricDefinition, MetricPackDefinition} from '@/types/formdefinition';
 import {getAllItems, getNewItems, StatusItem} from '@/types/status-item';
 import {useForm} from '@/app/context/FormContext';
 import {staticNutritionPackMDs} from '@/list/nutrition-pack-defs';
+import {CoreMetricPack, MetricPackType} from '@/types/coremetric-pack';
+import {CoreMetric} from '@/types/coremetric';
 
 
 // Packs need to be added in initPack and AddPack

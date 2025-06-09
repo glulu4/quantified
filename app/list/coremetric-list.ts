@@ -8,8 +8,8 @@ export const CoreMetricList: CoreMetric[] = [
     {
         id: "caffeine_consumption",
         defaultTitle: "Caffeine Consumption",
-        inputTypes: [CoreInputType.NUMBER, CoreInputType.MULTISELECT],
-        unitTypes: [CoreUnitType.MG_L, CoreUnitType.CUPS, CoreUnitType.DRINKS],
+        inputTypes: [CoreInputType.NUMBER, CoreInputType.MULTISELECT, CoreInputType.TIME],
+        unitTypes: [CoreUnitType.MG_L, CoreUnitType.CUPS, CoreUnitType.DRINKS, CoreUnitType.MILLILITER, CoreUnitType.OUNCE, CoreUnitType.TIME],
         filters: [
             {tag: "Body System", subtag: "Brain"},
             {tag: "Body System", subtag: "Heart"},
@@ -104,7 +104,7 @@ export const CoreMetricList: CoreMetric[] = [
     {
         id: "duration_of_urination",
         defaultTitle: "Duration of Urination",
-        inputTypes: [CoreInputType.NUMBER],
+        inputTypes: [CoreInputType.NUMBER, CoreInputType.TIME],
         unitTypes: [CoreUnitType.SECONDS, CoreUnitType.MINUTES, CoreUnitType.TIME],
         filters: [
             {tag: "Body System", subtag: "Urinary"},
@@ -254,7 +254,7 @@ export const CoreMetricList: CoreMetric[] = [
     {
         id: "lipoprotein_a",
         defaultTitle: "Lipoprotein(a)",
-        inputTypes: [CoreInputType.NUMBER],
+        inputTypes: [CoreInputType.NUMBER, CoreInputType.FRACTION],
         unitTypes: [CoreUnitType.MG_DL, CoreUnitType.NMOL_L],
         filters: [
             {tag: "Body System", subtag: "Blood"},
@@ -274,7 +274,7 @@ export const CoreMetricList: CoreMetric[] = [
     {
         id: "apob",
         defaultTitle: "apoB",
-        inputTypes: [CoreInputType.NUMBER],
+        inputTypes: [CoreInputType.NUMBER, CoreInputType.FRACTION],
         unitTypes: [CoreUnitType.MG_DL],
         filters: [
             {tag: "Body System", subtag: "Blood"},
@@ -2409,7 +2409,7 @@ export const CoreMetricList: CoreMetric[] = [
     {
         id: "calorie_consumption",
         defaultTitle: "Calorie Consumption",
-        inputTypes: [CoreInputType.NUMBER, CoreInputType.FRACTION],
+        inputTypes: [CoreInputType.NUMBER],
         unitTypes: [CoreUnitType.KCAL],
         filters: [
             {tag: "Measurement Unit", subtag: "Calories"},
@@ -2441,7 +2441,7 @@ export const CoreMetricList: CoreMetric[] = [
     {
         id: "peak_flow_pefr",
         defaultTitle: "Peak Flow (PEFR)",
-        inputTypes: [CoreInputType.NUMBER],
+        inputTypes: [CoreInputType.NUMBER, CoreInputType.FRACTION],
         unitTypes: [CoreUnitType.LITERS_MIN],
         filters: [
             {tag: "Body System", subtag: "Lungs"},
@@ -2471,7 +2471,7 @@ export const CoreMetricList: CoreMetric[] = [
     {
         id: "respiratory_rate",
         defaultTitle: "Respiratory Rate",
-        inputTypes: [CoreInputType.NUMBER],
+        inputTypes: [CoreInputType.NUMBER, CoreInputType.FRACTION],
         unitTypes: [CoreUnitType.BREATHS_MIN],
         filters: [
             {tag: "Body System", subtag: "Lungs"},

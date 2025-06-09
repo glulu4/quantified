@@ -7,7 +7,7 @@ export enum CoreUnitType {
     NMOL_L = "nmol/L",
     UMOL_L = "µmol/L",
     MINUTES = "minutes",
-    HOUR = "HOUR",
+    HOUR = "Hour",
     MILES = "miles",
     KILOMETERS = "kilometers",
     GRAM = "gram",
