@@ -12,6 +12,8 @@ import {useForm} from '@/app/context/FormContext';
 import {StatusItem} from '@/types/status-item';
 import {CoreInputType} from '@/types/core-input';
 import {CoreMetric} from '@/types/coremetric';
+import {CoreUnitType} from '@/types/core-unit';
+import {inputToUnits} from '@/utils/unitInputHelpers';
 
 interface InputSelectorProps {
     coreMetric: CoreMetric;
@@ -58,13 +60,18 @@ const InputSelectorCm = ({coreMetric, updateMetricDef}: InputSelectorProps) => {
 
     function handleSelect(selected: string) {
         setSelectedInput(selected);
-        // console.log("dropdownOptions: sell", dropdownOptions);
 
-        updateMetricDef(coreMetric.id, {
+        const updates: Partial<MetricDefinition> | Partial<DropdownMetricDefinition> = {
             inputType: selected as CoreInputType,
-            dropdownOptions: dropdownOptions
+            dropdownOptions: dropdownOptions,
+        };
 
-        });
+        const units = inputToUnits(selected as CoreInputType);
+        if (units.length > 0) {
+            (updates as Partial<MetricDefinition>).unitType = units[0];
+        }
+
+        updateMetricDef(coreMetric.id, updates);
         bottomSheetRef.current?.close();
     }
 
