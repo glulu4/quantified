@@ -1,16 +1,19 @@
 import {useAuth} from "@/app/context/AuthContext";
 import {deleteUserAccount} from "@/cloudfunctions/deleteFunctions";
 import {updateUser} from "@/cloudfunctions/updateFunctions";
+import {getUser} from "@/cloudfunctions/getFunctions";
 import {EditableField, User} from "@/types/user";
 import {useState} from "react";
 import {Alert} from "react-native";
+import {updateEmail} from "firebase/auth";
+import {auth} from "@/firebaseConfig";
 
 
 
 export const useUserData = (user: User) => {
 
 
-    const {logout} = useAuth();
+    const {logout, loginWithUser} = useAuth();
 
     const [firstName, setFirstName] = useState(user.firstName);
     const [lastName, setLastName] = useState(user.lastName);
@@ -19,6 +22,7 @@ export const useUserData = (user: User) => {
     const [weight, setWeight] = useState(user.weight ? String(user.weight) : '');
     const [height, setHeight] = useState(user.height ? String(user.height) : '');
     const [dob, setDob] = useState<Date>(user.dateOfBirth ? new Date(user.dateOfBirth) : new Date());
+    const [loading, setLoading] = useState(false);
 
 
 
@@ -42,33 +46,41 @@ export const useUserData = (user: User) => {
     };
 
 
-    function handleUpdate(field: EditableField) {
-        switch (field) {
-            case EditableField.Name:
+    async function handleUpdate(field: EditableField) {
+        setLoading(true);
+        try {
+            switch (field) {
+                case EditableField.Name:
+                    await updateUser({uid: user.uid, firstName, lastName});
+                    break;
+                case EditableField.Email:
+                    if (auth.currentUser) {
+                        await updateEmail(auth.currentUser, email);
+                    }
+                    await updateUser({uid: user.uid, email});
+                    break;
+                case EditableField.PhoneNumber:
+                    await updateUser({uid: user.uid, phoneNumber});
+                    break;
+                case EditableField.DateOfBirth:
+                    await updateUser({uid: user.uid, dateOfBirth: dob});
+                    break;
+                case EditableField.Height:
+                    await updateUser({uid: user.uid, height: parseFloat(height as string)});
+                    break;
+                case EditableField.Weight:
+                    await updateUser({uid: user.uid, weight: parseFloat(weight as string)});
+                    break;
+            }
 
-                updateUser({uid: user.uid, firstName, lastName})
-                break;
-            case EditableField.Email:
-                updateUser({uid: user.uid, email})
-                break;
-            case EditableField.PhoneNumber:
-
-                updateUser({uid: user.uid, phoneNumber})
-                break;
-            case EditableField.DateOfBirth:
-                updateUser({uid: user.uid, dateOfBirth: dob})
-                break;
-            case EditableField.Height:
-
-                if (!height) {
-
-                }
-                updateUser({uid: user.uid, height: parseFloat(height as string)})
-                break;
-            case EditableField.Weight:
-
-                updateUser({uid: user.uid, weight: parseFloat(weight as string)})
-                break;
+            const updatedUser = await getUser(user.uid);
+            if (updatedUser) {
+                await loginWithUser(updatedUser);
+            }
+        } catch (error) {
+            Alert.alert('Error', 'Failed to update account');
+        } finally {
+            setLoading(false);
         }
 
     }
@@ -91,7 +103,8 @@ export const useUserData = (user: User) => {
         setHeight,
         dob,
         setDob,
-        handleUpdate
+        handleUpdate,
+        loading
     }
 
 }

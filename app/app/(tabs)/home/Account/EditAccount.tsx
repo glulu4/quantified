@@ -1,6 +1,6 @@
-import {View, Text, TouchableOpacity} from 'react-native'
+import {View, TouchableOpacity} from 'react-native'
 import React, {useEffect} from 'react'
-import {useNavigation, useRouter} from 'expo-router';
+import {useNavigation} from 'expo-router';
 import {RouteProp, useRoute} from '@react-navigation/native';
 import {HomeStackParamList} from '../_layout';
 import ThemedView from '@/components/ThemedView';
@@ -11,6 +11,8 @@ import {useAuthenticatedUser} from '@/app/context/AuthContext';
 import {useUserData} from './hooks/useUserData';
 import DateInputWithLabel from '@/components/DateInputWithLabel';
 import {ThemedText} from '@/components/ui/ThemedText';
+import {ActivityIndicator} from 'react-native-paper';
+import {Colors} from '@/constants/Colors';
 
 
 type EditAccountRouteProp = RouteProp<AccountModalStackParamList, "EditAccount">;
@@ -41,7 +43,8 @@ export default function EditAccount() {
         setHeight,
         dob,
         setDob,
-        handleUpdate
+        handleUpdate,
+        loading
     } = useUserData(user);
 
     useEffect(() => {
@@ -52,10 +55,14 @@ export default function EditAccount() {
 
             headerRight: () => (
                 <View className='flex-row items-center justify-between gap-[60]'>
-                    <TouchableOpacity onPress={() => handleUpdate(fieldToEdit)}>
-                        <ThemedText type="headline" className=' text-blue-light dark:text-blue-dark'>
-                            Done
-                        </ThemedText>
+                    <TouchableOpacity onPress={async () => { await handleUpdate(fieldToEdit); navigation.goBack(); }}>
+                        {loading ? (
+                            <ActivityIndicator size={20} color={Colors.primary} />
+                        ) : (
+                            <ThemedText type="headline" className=' text-blue-light dark:text-blue-dark'>
+                                Done
+                            </ThemedText>
+                        )}
                     </TouchableOpacity>
                 </View>
             ),
@@ -65,7 +72,7 @@ export default function EditAccount() {
 
 
 
-    }, [fieldToEdit, firstName, lastName, email, phoneNumber, weight, height, dob]);
+    }, [fieldToEdit, firstName, lastName, email, phoneNumber, weight, height, dob, loading]);
 
 
 

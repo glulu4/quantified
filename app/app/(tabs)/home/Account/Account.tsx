@@ -277,15 +277,17 @@ import {Feather} from '@expo/vector-icons';
 import {User} from '@/types/user';
 import {format} from 'date-fns';
 import {ScrollView} from 'react-native-gesture-handler';
-import {deleteUserAccount} from '@/cloudfunctions/deleteFunctions';
 import {useNavigation} from 'expo-router';
 import {HomeStackNavigationType} from '../_layout';
 import {EditableField} from '@/types/user';
 import {AccountModalStackNavigationType} from './_layout';
 import {useUserData} from './hooks/useUserData';
+import {useLiveUser} from '@/hooks/useLiveUser';
 
 export default function Account() {
-    const user: User = useAuthenticatedUser();
+    const baseUser: User = useAuthenticatedUser();
+    const {user: liveUser} = useLiveUser(baseUser.uid);
+    const user: User = liveUser ?? baseUser;
     const {logout} = useAuth();
 
 
