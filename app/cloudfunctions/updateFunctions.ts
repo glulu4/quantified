@@ -70,8 +70,6 @@ export const updateMetricDefinitions = async (metricDefinitions: MetricDefinitio
     return updateFirestore<MetricDefinition[]>(metricDefinitions, "update-updateMetricDefinitions");
 };
 
-export type UserUpdate = Partial<User> & { uid: string };
-
-export const updateUser = async (user: UserUpdate): Promise<boolean> => {
-    return updateFirestore<UserUpdate>(user, "update-updateUser");
+export const updateUser = async (user: Partial<User>): Promise<boolean> => {
+    return updateFirestore<Partial<User>>(user, "update-updateUser");
 };

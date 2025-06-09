@@ -5,15 +5,10 @@ import {NavigationProp} from "@react-navigation/native";
 import FormProvider from "@/app/context/FormContext";
 import {TouchableOpacity, View} from "react-native";
 import {ThemedText} from "@/components/ui/ThemedText";
-import {CoreMetric, CoreMetricPack} from "@/types/core-metric";
 import {FormDefinition, MetricDefinition, MetricSubmission, Widget, MetricPackDefinition, MetricPackSubmission, FormSubmission} from "@/types/formdefinition";
 import ClipBoard from "@/components/icons/ClipBoard";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {NutritionPackItems} from "../../../types/store-types";
-import GraphProvider from "@/app/context/GraphContext";
-import { User } from "@/types/user";
-import { UserUpdate } from "@/services/userService";
-
 
 
 export enum OperationTypeHome {
@@ -21,6 +16,7 @@ export enum OperationTypeHome {
     FORM_DEFINITION_UPLOAD = 'form-definition',
     FORM_SUBMISSION = 'form-submission',
     FORM_DELETE = 'form-delete',
+    DELETE_USER = 'delete-user',
 
 }
 
@@ -44,6 +40,7 @@ export type HomeStackParamList = {
         newFormDefinition: FormDefinition;
         widgets: Widget[];
     }
+
     | {
         submissionType: OperationTypeHome.FORM_UPDATE;
         itemsToUpdate: {
@@ -120,14 +117,9 @@ export type HomeStackParamList = {
         formDefinitions: FormDefinition[];
     },
 
-    "Account/Account": {
+    "Account": {
 
     },
-
-
-    "Account/Loading": {
-        updatedUser: UserUpdate;
-    }
 
 
 };
@@ -170,19 +162,33 @@ const HomeStackLayout = () => {
                     <Stack.Screen name={FORM_SUBMIT} options={{headerShown: true, headerTitle: 'Form Submission'}} />
 
                     <Stack.Screen name={FOOD_SEARCH} options={{headerShown: true, headerTitle: 'Food Search'}} />
-                    <Stack.Screen
+
+                    <Stack.Screen name="Account" options={{headerShown: false, presentation: 'modal'}} />
+
+                    {/* <Stack.Screen
 
                         name="Account/Account"
                         options={{
                             presentation: 'modal',
                             headerTitle: 'Account',
+
                         }}
 
                     />
+
                     <Stack.Screen
-                        name="Account/Loading"
-                        options={{headerShown: false}}
-                    />
+
+                        name="Account/EditAccount"
+                        options={{
+                            presentation: "modal",
+                            headerTitle: 'Account',
+                            animation: "slide_from_left"
+
+                        }}
+
+
+                    /> */}
+
                     <Stack.Screen
                         name="ViewAllModal"
                         options={{

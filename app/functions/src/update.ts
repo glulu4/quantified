@@ -307,12 +307,12 @@ export const removeFolderFromUser = async (uid: string, folderId: string) => {
 };
 
 exports.updateUser = onCall(async (request) => {
-  const { uid, ...rest } = request.data;
+  const {uid, ...rest} = request.data;
 
   if (!uid) {
     throw new functions.https.HttpsError(
-      'invalid-argument',
-      'User update must include a uid.'
+      "invalid-argument",
+      "User update must include a uid."
     );
   }
 
@@ -322,14 +322,14 @@ exports.updateUser = onCall(async (request) => {
       updatedAt: Timestamp.now(),
     });
     return {
-      message: 'Successfully updated user',
+      message: "Successfully updated user",
       success: true,
     };
   } catch (error) {
-    logger.info('error in updateUser: ', error);
+    logger.info("error in updateUser: ", error);
     throw new functions.https.HttpsError(
-      'internal',
-      'Unable to update user',
+      "internal",
+      "Unable to update user",
       error
     );
   }
