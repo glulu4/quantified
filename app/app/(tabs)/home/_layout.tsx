@@ -11,6 +11,8 @@ import ClipBoard from "@/components/icons/ClipBoard";
 import {NativeStackNavigationProp} from "@react-navigation/native-stack";
 import {NutritionPackItems} from "../../../types/store-types";
 import GraphProvider from "@/app/context/GraphContext";
+import { User } from "@/types/user";
+import { UserUpdate } from "@/services/userService";
 
 
 
@@ -120,6 +122,11 @@ export type HomeStackParamList = {
 
     "Account/Account": {
 
+    },
+
+
+    "Account/Loading": {
+        updatedUser: UserUpdate;
     }
 
 
@@ -171,6 +178,10 @@ const HomeStackLayout = () => {
                             headerTitle: 'Account',
                         }}
 
+                    />
+                    <Stack.Screen
+                        name="Account/Loading"
+                        options={{headerShown: false}}
                     />
                     <Stack.Screen
                         name="ViewAllModal"

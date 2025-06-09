@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import {View, Alert, TouchableOpacity} from 'react-native';
 import ThemedView from '@/components/ThemedView';
 import {ThemedText} from '@/components/ui/ThemedText';
@@ -11,40 +11,23 @@ import {User} from '@/types/user';
 import {format} from 'date-fns';
 import {ScrollView} from 'react-native-gesture-handler';
 import {deleteUserAccount} from '@/cloudfunctions/deleteFunctions';
+import { router } from 'expo-router';
+import EditableProfileField from '@/components/EditableProfileField';
+import DateInputWithLabel from '@/components/DateInputWithLabel';
+import Button from '@/components/Button';
 
 export default function Account() {
     const user: User = useAuthenticatedUser();
     const {logout} = useAuth();
 
-
-
-    const userInfo = [
-        {
-            title: 'Name',
-            value: `${user.firstName} ${user.lastName}`,
-        },
-        {
-            title: 'Email',
-            value: user.email,
-        },
-        {
-            title: 'Phone Number',
-            value: user.phoneNumber,
-        },
-        {
-            title: 'Date of Birth',
-            value: user.dateOfBirth ? format(new Date(user.dateOfBirth), 'MMMM dd, yyyy') : '—',
-        },
-        {
-            title: 'Height',
-            value: user.height ? `${user.height} in` : '—',
-        },
-        {
-            title: 'Weight',
-            value: user.weight ? `${user.weight} lb` : '—',
-        },
-
-    ];
+    const [editing, setEditing] = useState(false);
+    const [firstName, setFirstName] = useState(user.firstName);
+    const [lastName, setLastName] = useState(user.lastName);
+    const [email, setEmail] = useState(user.email);
+    const [phoneNumber, setPhoneNumber] = useState(user.phoneNumber);
+    const [weight, setWeight] = useState(user.weight ? String(user.weight) : '');
+    const [height, setHeight] = useState(user.height ? String(user.height) : '');
+    const [dob, setDob] = useState<Date>(user.dateOfBirth ? new Date(user.dateOfBirth) : new Date());
 
     const handleDeleteAccount = () => {
         Alert.alert('Delete Account', 'Are you sure you want to delete your account?', [
@@ -64,11 +47,38 @@ export default function Account() {
         ]);
     };
 
+    const handleSave = () => {
+        setEditing(false);
+        router.navigate('Account/Loading', {
+            updatedUser: {
+                uid: user.uid,
+                firstName,
+                lastName,
+                email,
+                phoneNumber,
+                weight: parseInt(weight),
+                height: parseInt(height),
+                dateOfBirth: dob,
+            },
+        });
+    };
+
+    const handleCancel = () => {
+        setFirstName(user.firstName);
+        setLastName(user.lastName);
+        setEmail(user.email);
+        setPhoneNumber(user.phoneNumber);
+        setWeight(user.weight ? String(user.weight) : '');
+        setHeight(user.height ? String(user.height) : '');
+        setDob(user.dateOfBirth ? new Date(user.dateOfBirth) : new Date());
+        setEditing(false);
+    };
+
     const actions = [
         {
             title: 'Edit Profile',
             onPress: () => {
-                Alert.alert('Edit Profile', 'Edit Profile action triggered');
+                setEditing(true);
             },
         },
         {
@@ -139,85 +149,110 @@ export default function Account() {
                         Profile Information
                     </ThemedText>
 
-                    <View className="bg-secondaryFill-light dark:bg-secondaryFill-dark rounded-2xl overflow-hidden">
-                        {userInfo.map((item, index) => (
-                            <View key={index}>
-                                <View className="px-5 py-4">
-                                    <View className="flex-row justify-between items-center">
-                                        <ThemedText
-                                            type="body"
-                                            labelType="secondary"
-                                            className="flex-1"
-                                        >
-                                            {item.title}
-                                        </ThemedText>
-                                        <ThemedText
-                                            type="body"
-                                            labelType="primary"
-                                            emphasized
-                                            className="flex-2 text-right"
-                                        >
-                                            {item.value || '—'}
-                                        </ThemedText>
+                    {editing ? (
+                        <View>
+                            <EditableProfileField label="First Name" value={firstName} onChange={setFirstName} className="mb-4" />
+                            <EditableProfileField label="Last Name" value={lastName} onChange={setLastName} className="mb-4" />
+                            <DateInputWithLabel label="Date of Birth" value={dob} setValue={setDob} className="mb-4" />
+                            <EditableProfileField label="Email" value={email} onChange={setEmail} keyboardType="email-address" className="mb-4" />
+                            <EditableProfileField label="Phone Number" value={phoneNumber} onChange={setPhoneNumber} keyboardType="phone-pad" className="mb-4" />
+                            <EditableProfileField label="Weight (lb)" value={weight} onChange={setWeight} keyboardType="numeric" className="mb-4" />
+                            <EditableProfileField label="Height (in)" value={height} onChange={setHeight} keyboardType="numeric" />
+                        </View>
+                    ) : (
+                        <View className="bg-secondaryFill-light dark:bg-secondaryFill-dark rounded-2xl overflow-hidden">
+                            {[{title: 'Name', value: `${user.firstName} ${user.lastName}`},
+                              {title: 'Email', value: user.email},
+                              {title: 'Phone Number', value: user.phoneNumber},
+                              {title: 'Date of Birth', value: user.dateOfBirth ? format(new Date(user.dateOfBirth), 'MMMM dd, yyyy') : '—'},
+                              {title: 'Height', value: user.height ? `${user.height} in` : '—'},
+                              {title: 'Weight', value: user.weight ? `${user.weight} lb` : '—'}].map((item, index, arr) => (
+                                <View key={index}>
+                                    <View className="px-5 py-4">
+                                        <View className="flex-row justify-between items-center">
+                                            <ThemedText
+                                                type="body"
+                                                labelType="secondary"
+                                                className="flex-1"
+                                            >
+                                                {item.title}
+                                            </ThemedText>
+                                            <ThemedText
+                                                type="body"
+                                                labelType="primary"
+                                                emphasized
+                                                className="flex-2 text-right"
+                                            >
+                                                {item.value || '—'}
+                                            </ThemedText>
+                                        </View>
                                     </View>
-                                </View>
-                                {index < userInfo.length - 1 && (
-                                    <View
-                                        className="h-px mx-5"
-                                        style={{backgroundColor: separator}}
-                                    />
-                                )}
-                            </View>
-                        ))}
-                    </View>
-                </View>
-
-                {/* Actions Section */}
-                <View className="mb-8">
-                    <ThemedText
-                        emphasized
-                        labelType="primary"
-                        type="title3"
-                        className="mb-4 px-1"
-                    >
-                        Account Settings
-                    </ThemedText>
-
-                    <View className="bg-secondaryFill-light dark:bg-secondaryFill-dark rounded-2xl overflow-hidden">
-                        {actions.map((item, index) => (
-                            <View key={index}>
-                                <TouchableOpacity
-                                    onPress={item.onPress}
-                                    className="px-5 py-4 active:bg-tertiaryFill-light active:dark:bg-tertiaryFill-dark"
-                                >
-                                    <View className="flex-row justify-between items-center">
-                                        <ThemedText
-                                            type="body"
-                                            labelType={item.isDestructive ? "tertiary" : "primary"}
-                                            emphasized
-                                            style={item.isDestructive ? {color: red} : undefined}
-                                        >
-                                            {item.title}
-                                        </ThemedText>
-                                        <SFSymbol
-                                            name="chevron.right"
-                                            scale="small"
-                                            weight="medium"
-                                            size={14}
-                                            color={item.isDestructive ? red : blue}
+                                    {index < arr.length - 1 && (
+                                        <View
+                                            className="h-px mx-5"
+                                            style={{backgroundColor: separator}}
                                         />
-                                    </View>
-                                </TouchableOpacity>
-                                {index < actions.length - 1 && (
-                                    <View
-                                        className="h-px mx-5"
-                                        style={{backgroundColor: separator}}
-                                    />
-                                )}
-                            </View>
-                        ))}
-                    </View>
+                                    )}
+                                </View>
+                            ))}
+                        </View>
+                    )}
                 </View>
+
+                {editing && (
+                    <View className="flex-row justify-around mb-8">
+                        <Button text="Save" onPress={handleSave} />
+                        <Button text="Cancel" onPress={handleCancel} />
+                    </View>
+                )}
+
+                {!editing && (
+                    <View className="mb-8">
+                        <ThemedText
+                            emphasized
+                            labelType="primary"
+                            type="title3"
+                            className="mb-4 px-1"
+                        >
+                            Account Settings
+                        </ThemedText>
+
+                        <View className="bg-secondaryFill-light dark:bg-secondaryFill-dark rounded-2xl overflow-hidden">
+                            {actions.map((item, index) => (
+                                <View key={index}>
+                                    <TouchableOpacity
+                                        onPress={item.onPress}
+                                        className="px-5 py-4 active:bg-tertiaryFill-light active:dark:bg-tertiaryFill-dark"
+                                    >
+                                        <View className="flex-row justify-between items-center">
+                                            <ThemedText
+                                                type="body"
+                                                labelType={item.isDestructive ? 'tertiary' : 'primary'}
+                                                emphasized
+                                                style={item.isDestructive ? {color: red} : undefined}
+                                            >
+                                                {item.title}
+                                            </ThemedText>
+                                            <SFSymbol
+                                                name="chevron.right"
+                                                scale="small"
+                                                weight="medium"
+                                                size={14}
+                                                color={item.isDestructive ? red : blue}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                    {index < actions.length - 1 && (
+                                        <View
+                                            className="h-px mx-5"
+                                            style={{backgroundColor: separator}}
+                                        />
+                                    )}
+                                </View>
+                            ))}
+                        </View>
+                    </View>
+                )}
             </ScrollView>
         </ThemedView>
     );
