@@ -11,6 +11,8 @@ import {Action, SignInForm, SignInNavigationType} from './_layout';
 import {ThemedTextInput} from '@/components/ui/ThemedTextInput';
 import Toast from 'react-native-toast-message';
 import {useAuth} from '../context/AuthContext';
+import {validatePassword} from '@/utils/util';
+import {errorToast} from '@/utils/toastUtils';
 import ThemedView from '@/components/ThemedView';
 import {SFSymbol} from 'react-native-sfsymbols';
 import {useThemeColor} from '@/hooks/useThemeColor';
@@ -46,7 +48,11 @@ export default function SignIn() {
   })
 
   const goToLoading = (who?: string) => {
-
+    const validationMessage = validatePassword(password);
+    if (validationMessage) {
+      errorToast(validationMessage);
+      return;
+    }
 
     if (who === "gabby") {
       let form: SignInForm = {

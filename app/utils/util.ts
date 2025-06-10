@@ -64,6 +64,30 @@ export const sum = (array: number[]) => {
 };
 
 /**
+ * Validate a password against common strength requirements.
+ * Returns `null` when the password is valid or an error message describing
+ * the first failed rule.
+ */
+export function validatePassword(password: string): string | null {
+  if (password.length < 8) {
+    return 'Password must be at least 8 characters long';
+  }
+  if (!/[A-Z]/.test(password)) {
+    return 'Password must include at least one uppercase letter';
+  }
+  if (!/[a-z]/.test(password)) {
+    return 'Password must include at least one lowercase letter';
+  }
+  if (!/[0-9]/.test(password)) {
+    return 'Password must include at least one number';
+  }
+  if (!/[!@#$%^&*]/.test(password)) {
+    return 'Password must include at least one special character';
+  }
+  return null;
+}
+
+/**
  * 
  * @param0 Error
  * @param1 function name
