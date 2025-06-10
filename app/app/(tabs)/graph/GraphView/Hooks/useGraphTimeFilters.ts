@@ -17,8 +17,8 @@ export enum GraphFilterOptions {
 export const useGraphTimeFilters = (graphRef: RefObject<GraphHandle<any>>) => {
 
     const {state, dispatch} = useGraph();
-    const [segmentedIndex, setSegmentedIndex] = useState(0); // Default to 'Month'
-    const [currentFilter, setCurrentFilter] = useState<GraphFilterOptions>(GraphFilterOptions.Day);
+    const [segmentedIndex, setSegmentedIndex] = useState(2); // Default to 'Month'
+    const [currentFilter, setCurrentFilter] = useState<GraphFilterOptions>(GraphFilterOptions.Month);
     const [xAxisLabel, setXAxisLabel] = useState('Date');
 
     function updateXAxisLabel(filterOption: GraphFilterOptions) {
