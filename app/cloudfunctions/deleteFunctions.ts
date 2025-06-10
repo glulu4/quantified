@@ -130,3 +130,14 @@ export const deleteGraph = async (chartId: string): Promise<boolean> => {
 export const deleteUserAccount = async (uid: string): Promise<boolean> => {
   return fetchFirestoreData<boolean, string>(uid, 'delete-deleteUser');
 };
+
+export const deleteNutritionItem = async (
+  uid: string,
+  itemId: string,
+  itemType: 'food' | 'userFood' | 'foodCombination'
+): Promise<boolean> => {
+  return fetchFirestoreData<boolean, {uid: string; itemId: string; itemType: string}>(
+    {uid, itemId, itemType},
+    'delete-deleteNutritionItem'
+  );
+};

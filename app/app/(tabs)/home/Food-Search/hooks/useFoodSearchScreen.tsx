@@ -54,6 +54,7 @@ function addToMap<T extends FoodItem>(
     item: T,
     status: FoodItemStatus
 ) {
+
     setMap((prev) => {
         const next = new Map(prev);
         next.set(item.id, {value: item, status});
@@ -112,6 +113,10 @@ export function useFoodSearchScreen(uid: string, packId: string) {
 
 
     const {nutritionItems: queriedUserFoodItems, error, loading: userQueriedFoodItemsLoading} = useNutritionItems(uid);
+    const [editedQueriedFoodItemsMap, setEditedQueriedFoodItemsMap] = useState<Record<string, FoodItem>>({});
+
+
+    const [deletedFoodItemIds, setDeletedFoodItemIds] = useState<Set<string>>(new Set<string>());
 
     useEffect(() => {
 
@@ -138,7 +143,6 @@ export function useFoodSearchScreen(uid: string, packId: string) {
     }, [userQueriedFoodItemsLoading])
 
     // load queried foods into the map
-    const [editedQueriedFoodItemsMap, setEditedQueriedFoodItemsMap] = useState<Record<string, FoodItem>>({});
 
 
     // store the queired foods, 
@@ -174,20 +178,18 @@ export function useFoodSearchScreen(uid: string, packId: string) {
 
         console.log("Syncing state with pack store on exit");
 
-        const foods: Food[] = convertApiFood2Food(apiFoodManager.selectedApiFoods, uid);
+        const apiFoods: Food[] = convertApiFood2Food(apiFoodManager.selectedApiFoods, uid);
 
-        console.log("Selected API Foods to be added: ", foods);
-
-
-        for (const food of foods) {
+        for (const food of apiFoods) {
             addToMap(foodMap, setFoodMap, food, "new");
         }
 
-        // creating a new map because setting state directly is async
-        const localFoodMap: Map<string, StatusItem<Food>> = new Map();
-        foods.forEach((food, idx) => {
+        // creating a new map because setting state directly is async, inititalizing it with the current state
+        const localFoodMap: Map<string, StatusItem<Food>> = new Map(foodMap);
+        apiFoods.forEach((food, idx) => {
             localFoodMap.set(food.id, {value: food, status: "new"});
         });
+
 
         const updatedNutritionState: Partial<NutritionState> = {
             foods: localFoodMap,
@@ -204,6 +206,8 @@ export function useFoodSearchScreen(uid: string, packId: string) {
         (item: FoodItem, status: FoodItemStatus) => {
             switch (item.type) {
                 case FoodItemType.Food:
+
+                    console.log("in add food, Adding food item ", item.name);
                     addToMap(foodMap, setFoodMap, item as Food, status);
                     break;
                 case FoodItemType.UserFood:
@@ -219,20 +223,42 @@ export function useFoodSearchScreen(uid: string, packId: string) {
 
     const removeFoodItem = useCallback(
         (item: FoodItem) => {
-            switch (item.type) {
-                case FoodItemType.Food:
-                    removeFromMap(foodMap, setFoodMap, item as Food);
-                    break;
-                case FoodItemType.UserFood:
-                    removeFromMap(userFoodMap, setUserFoodMap, item as UserFood);
-                    break;
-                case FoodItemType.FoodCombination:
-                    removeFromMap(foodCombinationMap, setFoodCombinationMap, item as FoodCombination);
-                    break;
+            console.log("Removing food item:", item.name, "of type:", item.type);
+
+            // Check if this item is in the maps (committed items)
+            const isInMaps = foodMap.has(item.id) || userFoodMap.has(item.id) || foodCombinationMap.has(item.id);
+
+            if (isInMaps) {
+                // Remove from maps as before
+                switch (item.type) {
+                    case FoodItemType.Food:
+                        removeFromMap(foodMap, setFoodMap, item as Food);
+                        break;
+                    case FoodItemType.UserFood:
+                        removeFromMap(userFoodMap, setUserFoodMap, item as UserFood);
+                        break;
+                    case FoodItemType.FoodCombination:
+                        removeFromMap(foodCombinationMap, setFoodCombinationMap, item as FoodCombination);
+                        break;
+                }
+            } else {
+                // This is a queried item - add to removed set
+                console.log("Adding queried item to removed set:", item.id);
+                setDeletedFoodItemIds(prev => new Set(prev).add(item.id));
+
+                // Also remove from edited map if it exists there
+                setEditedQueriedFoodItemsMap(prev => {
+                    const next = {...prev};
+                    delete next[item.id];
+                    return next;
+                });
             }
         },
         [foodMap, userFoodMap, foodCombinationMap]
     );
+
+
+
     const updateFoodItem = useCallback((item: FoodItem) => {
         switch (item.type) {
             case FoodItemType.Food:
@@ -252,6 +278,13 @@ export function useFoodSearchScreen(uid: string, packId: string) {
 
     const toggleFoodItem = useCallback(
         (item: FoodItem, status?: FoodItemStatus) => {
+
+            console.log("Toggling food item:", item.id, "with status:", status);
+
+            console.log("item type:", item.type);
+
+
+
             switch (item.type) {
                 case FoodItemType.Food: {
                     const exists = foodMap.has(item.id);
@@ -262,6 +295,8 @@ export function useFoodSearchScreen(uid: string, packId: string) {
                         // reuse old status if somehow in map, else provided status, else "new"
                         const old = foodMap.get(item.id)?.status;
                         const s = status ?? old ?? "new";
+
+                        console.log("Adding food item ", item.name);
                         addFoodItem(item as Food, s);
                     }
                     break;
@@ -302,6 +337,11 @@ export function useFoodSearchScreen(uid: string, packId: string) {
     // — NEW: isFoodItemSelected — checks presence in the right map —
     const isFoodItemSelected = useCallback(
         (item: FoodItem): boolean => {
+
+
+            if (deletedFoodItemIds.has(item.id)) {
+                return false;
+            }
             switch (item.type) {
                 case FoodItemType.Food:
                     return foodMap.has(item.id);
@@ -326,7 +366,7 @@ export function useFoodSearchScreen(uid: string, packId: string) {
             updateApiFoodDetail,
         };
     }, [
-        selectedApiFoods,
+        selectedApiFoods.length,
         isApiFoodSelected,
         toggleApiFood,
         detailApiFood,
@@ -340,21 +380,7 @@ export function useFoodSearchScreen(uid: string, packId: string) {
             ...getAllItems(userFoodMap),
             ...getAllItems(foodCombinationMap),
         ];
-    }, [foodMap, userFoodMap, foodCombinationMap]);
-
-
-    // 
-    // const allQueriedFoodItems = useMemo(() => {
-    //     const baseItems = [
-    //         ...(queriedUserFoodItems?.foods || []),
-    //         ...(queriedUserFoodItems?.userFoods || []),
-    //         ...(queriedUserFoodItems?.foodCombinations || []),
-    //     ];
-
-    //     return baseItems.map(item => editedQueriedFoodItemsMap[item.id] ?? item);
-    // }, [queriedUserFoodItems, editedQueriedFoodItemsMap]);
-
-
+    }, [foodMap.size, userFoodMap.size, foodCombinationMap.size]);
 
 
     const allFoodsItems = useMemo(() => {
@@ -363,6 +389,8 @@ export function useFoodSearchScreen(uid: string, packId: string) {
             ...(queriedUserFoodItems?.userFoods || []),
             ...(queriedUserFoodItems?.foodCombinations || []),
         ];
+
+
 
         const mergedMap = new Map<string, FoodItem>();
 
@@ -378,51 +406,71 @@ export function useFoodSearchScreen(uid: string, packId: string) {
 
         // 3. Fill in remaining from backend query
         queriedItems.forEach((item) => {
-            if (!mergedMap.has(item.id)) {
+
+            // Only add if not already in mergedMap and not deleted
+            if (!mergedMap.has(item.id) && !deletedFoodItemIds.has(item.id)) {
+
+                console.log("Adding queried item to merged map:", item.id, item.name);
+
                 mergedMap.set(item.id, item);
             }
         });
 
         return Array.from(mergedMap.values());
     }, [
-        foodMap,
-        userFoodMap,
-        foodCombinationMap,
+        foodMap.size,
+        userFoodMap.size,
+        foodCombinationMap.size,
         editedQueriedFoodItemsMap,
         queriedUserFoodItems
     ]);
 
 
 
-    const foodItemManager: FoodItemManager = useMemo(() => {
-        return {
-            foodMap,
-            userFoodMap,
-            foodCombinationMap,
-            addFoodItem,
-            removeFoodItem,
-            updateFoodItem,
-            toggleFoodItem,
-            isFoodItemSelected,
-            allSelectedFoodItems,
-            userQueriedFoodItemsLoading,
-            allFoodsItems,
-        };
-    }
-        , [
-            foodMap,
-            userFoodMap,
-            foodCombinationMap,
-            addFoodItem,
-            removeFoodItem,
-            updateFoodItem,
-            toggleFoodItem,
-            isFoodItemSelected,
-            allSelectedFoodItems,
-            userQueriedFoodItemsLoading,
-            allFoodsItems,
 
-        ]);
+    const foodItemManager: FoodItemManager = {
+        foodMap,
+        userFoodMap,
+        foodCombinationMap,
+        addFoodItem,
+        removeFoodItem,
+        updateFoodItem,
+        toggleFoodItem,
+        isFoodItemSelected,
+        allSelectedFoodItems,
+        userQueriedFoodItemsLoading,
+        allFoodsItems,
+    }
+
+    // const foodItemManager: FoodItemManager = useMemo(() => {
+    //     return {
+    //         foodMap,
+    //         userFoodMap,
+    //         foodCombinationMap,
+    //         addFoodItem,
+    //         removeFoodItem,
+    //         updateFoodItem,
+    //         toggleFoodItem,
+    //         isFoodItemSelected,
+    //         allSelectedFoodItems,
+    //         userQueriedFoodItemsLoading,
+    //         allFoodsItems,
+    //     };
+    // }
+    //     , [
+    //         foodMap.size,
+    //         userFoodMap.size,
+    //         foodCombinationMap.size,
+    //         addFoodItem,
+    //         removeFoodItem,
+    //         updateFoodItem,
+    //         toggleFoodItem,
+    //         isFoodItemSelected,
+    //         allSelectedFoodItems.length,
+    //         userQueriedFoodItemsLoading,
+    //         allFoodsItems.length,
+
+    //     ]);
 
 
 

@@ -16,27 +16,26 @@ import {SwipeToDelete} from '@/components/SwipeToDelete';
 interface MixedFoodListFoodListProps {
     items: FoodItem[];
     onPressItem: (item: FoodItem) => void;
+    onDeleteItem?: (item: FoodItem) => void;
     backgroundColor?: string;
     dividerColor?: string;
-    renderLeading?: (item: FoodItem) => React.ReactElement
+    renderLeading?: (item: FoodItem) => React.ReactElement;
     scrollEnabled: boolean;
 }
 
-const MixedFoodList: React.FC<MixedFoodListFoodListProps> = ({items, onPressItem, backgroundColor, dividerColor, renderLeading, scrollEnabled}) => {
+const MixedFoodList: React.FC<MixedFoodListFoodListProps> = ({items, onPressItem, onDeleteItem, backgroundColor, dividerColor, renderLeading, scrollEnabled}) => {
     const textColorSecondary = useThemeColor({}, "labelSecondary");
-
-    const renderItem = ({item}: {item: FoodItem}) => (
-
-        <SwipeToDelete onDelete={() => {}}>
+    const renderItem = ({item}: {item: FoodItem}) => {
+        const content = (
             <Row
                 leading={renderLeading ? renderLeading(item) : undefined}
                 trailing={
                     <TouchableOpacity style={{zIndex: 100}} onPress={() => onPressItem(item)}>
-                        <View className='flex flex-row items-center justify-center pr-2 gap-4'>
-                            <ThemedText labelType='secondary' className='text-right'>
+                        <View className="flex flex-row items-center justify-center pr-2 gap-4">
+                            <ThemedText labelType="secondary" className="text-right">
                                 Details
                             </ThemedText>
-                            <SFSymbol name='chevron.right' size={15} color={textColorSecondary} />
+                            <SFSymbol name="chevron.right" size={15} color={textColorSecondary} />
                         </View>
                     </TouchableOpacity>
                 }
@@ -52,9 +51,17 @@ const MixedFoodList: React.FC<MixedFoodListFoodListProps> = ({items, onPressItem
                     </View>
                 </View>
             </Row>
-        </SwipeToDelete>
+        );
 
-    );
+        return onDeleteItem ? (
+            <SwipeToDelete onDelete={() => onDeleteItem(item)}>
+                {content}
+            </SwipeToDelete>
+        ) : (
+            content
+        );
+    };
+
 
     return (
         <List backgroundColor={backgroundColor} dividerColor={dividerColor} style={{borderRadius: 12}} >

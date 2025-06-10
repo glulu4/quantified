@@ -10,6 +10,7 @@ import {
   MetricPackDefinition,
   Widget,
 } from "../../types/formdefinition";
+import {FoodItemType} from "../../types/food";
 
 
 exports.deleteFormItemsForUpdate = onCall(async (request) => {
@@ -232,6 +233,57 @@ exports.deleteUser = onCall(async (request) => {
     throw new functions.https.HttpsError(
       "internal",
       "Unable to delete user",
+      error
+    );
+  }
+});
+
+exports.deleteNutritionItem = onCall(async (request) => {
+  const {
+    uid,
+    itemId,
+    itemType,
+  }: {
+    uid: string;
+    itemId: string;
+    itemType: FoodItemType;
+  } = request.data;
+
+  if (!uid || !itemId || !itemType) {
+    throw new functions.https.HttpsError(
+      "invalid-argument",
+      "uid, itemId and itemType must be provided"
+    );
+  }
+
+  try {
+    let collectionRef;
+
+    if (itemType === FoodItemType.Food) {
+      collectionRef = db.foods(uid);
+    } else if (itemType === FoodItemType.UserFood) {
+      collectionRef = db.userFoods(uid);
+    } else if (itemType === FoodItemType.FoodCombination) {
+      collectionRef = db.foodCombinations(uid);
+    } else {
+      throw new functions.https.HttpsError(
+        "invalid-argument",
+        "Unknown itemType"
+      );
+    }
+
+    await collectionRef.doc(itemId).update({deletedAt: Timestamp.now()});
+    //  .delete({exists: true});
+
+    return {
+      message: "Nutrition item deleted successfully",
+      success: true,
+    };
+  } catch (error) {
+    logger.error("error in deleteNutritionItem: ", error);
+    throw new functions.https.HttpsError(
+      "internal",
+      "Unable to delete nutrition item",
       error
     );
   }

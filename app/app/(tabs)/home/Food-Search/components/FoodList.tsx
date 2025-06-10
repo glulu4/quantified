@@ -11,8 +11,9 @@ import {SFSymbol} from 'react-native-sfsymbols'
 import {renderFoodDescription, renderFoodDetails} from '../utils/util'
 import MixedFoodList from '../../Form-Submit/components/packs/MixedFoodList'
 import {useAuthenticatedUser} from '@/app/context/AuthContext'
-import {FoodItem, FoodItemStatus} from '@/types/food'
+import {FoodItem, FoodItemStatus, FoodItemType} from '@/types/food'
 import {ApiFoodManager, FoodItemManager} from '../hooks/useFoodSearchScreen'
+import {deleteNutritionItem} from '@/cloudfunctions/deleteFunctions'
 
 
 interface FoodListProps {
@@ -48,6 +49,17 @@ const FoodList = ({
     const [num, setNum] = React.useState(0);
     const textColorSecondary = useThemeColor({}, "labelSecondary");
     const user = useAuthenticatedUser();
+
+    async function handleDeleteItem(item: FoodItem) {
+        foodItemManager.removeFoodItem(item);
+
+        // return;
+        try {
+            await deleteNutritionItem(user.uid, item.id, item.type);
+        } catch (error) {
+            console.error('Error deleting item:', error);
+        }
+    }
 
     // hook for getting saved user foods
     // const {toggleItem: toggleItemInState, isItemInState} = useNutritionPackState(packId);
@@ -136,9 +148,12 @@ const FoodList = ({
                 backgroundColor={backgroundColor}
                 items={foodItemManager.allFoodsItems}
                 onPressItem={(item) => handleOpenFoodItemSheet(item)}
+                onDeleteItem={handleDeleteItem}
                 renderLeading={(item) => (
                     <TouchableOpacity
                         onPress={() => {
+                            console.log('Toggle food item:', item.name);
+
                             foodItemManager.toggleFoodItem(item)
                         }}
                     >

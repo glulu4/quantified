@@ -40,11 +40,6 @@ export default function UserFoodBottomSheet({
 }: UserFoodBottomSheetProps) {
     const isEditMode = !!food;
 
-    console.log("UserFoodBottomSheet: isEditMode: ", isEditMode);
-    // console.log("food: ", food?.name);
-
-
-
     const coreNutrients: UserNutrient[] = React.useMemo(() => {
         return coreNutritionMetrics.map((metric) => {
             return {
@@ -165,11 +160,6 @@ export default function UserFoodBottomSheet({
                     updatedAt: Timestamp.now(),
                 };
             }
-
-            console.log("UserFoodBottomSheet: updatedFood: ", updatedFood.name);
-            // return;
-
-
             updateItem(updatedFood);
 
 
