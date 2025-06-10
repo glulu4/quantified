@@ -12,6 +12,7 @@ import TextInputWithLabel from '@/components/TextInputLabeled';
 import Button from '@/components/Button';
 import DateInputWithLabel from '@/components/DateInputWithLabel';
 import {errorToast} from '@/utils/toastUtils';
+import {validatePassword} from '@/utils/util';
 
 
 const firebaseError2Message = new Map<string, string>([
@@ -118,26 +119,17 @@ export default function CreateAccount() {
       }
     }
     if (activeStep === 2) {
-      if (email.length < 5 || password.length < 6) {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: "Email must be at least 5 characters long and password must be at least 6 characters long",
-          position: 'top',
-          visibilityTime: 3000,
-          swipeable: true,
-        });
+      if (email.length < 5) {
+        errorToast('Email must be at least 5 characters long');
         return;
       }
       if (!email.includes('@')) {
-        Toast.show({
-          type: 'error',
-          text1: 'Error',
-          text2: "Email must be a valid email address",
-          position: 'top',
-          visibilityTime: 3000,
-          swipeable: true,
-        });
+        errorToast('Email must be a valid email address');
+        return;
+      }
+      const validationMessage = validatePassword(password);
+      if (validationMessage) {
+        errorToast(validationMessage);
         return;
       }
     }
