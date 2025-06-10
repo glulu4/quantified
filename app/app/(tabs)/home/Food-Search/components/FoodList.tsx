@@ -53,11 +53,9 @@ const FoodList = ({
     async function handleDeleteItem(item: FoodItem) {
         foodItemManager.removeFoodItem(item);
 
-        const itemType = item.type === FoodItemType.Food ? 'food' :
-            item.type === FoodItemType.UserFood ? 'userFood' : 'foodCombination';
-
+        // return;
         try {
-            await deleteNutritionItem(user.uid, item.id, itemType);
+            await deleteNutritionItem(user.uid, item.id, item.type);
         } catch (error) {
             console.error('Error deleting item:', error);
         }
@@ -154,6 +152,8 @@ const FoodList = ({
                 renderLeading={(item) => (
                     <TouchableOpacity
                         onPress={() => {
+                            console.log('Toggle food item:', item.name);
+
                             foodItemManager.toggleFoodItem(item)
                         }}
                     >
