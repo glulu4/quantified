@@ -16,18 +16,19 @@ import {SwipeToDelete} from '@/components/SwipeToDelete';
 interface MixedFoodListFoodListProps {
     items: FoodItem[];
     onPressItem: (item: FoodItem) => void;
+    onDeleteItem?: (item: FoodItem) => void;
     backgroundColor?: string;
     dividerColor?: string;
-    renderLeading?: (item: FoodItem) => React.ReactElement
+    renderLeading?: (item: FoodItem) => React.ReactElement;
     scrollEnabled: boolean;
 }
 
-const MixedFoodList: React.FC<MixedFoodListFoodListProps> = ({items, onPressItem, backgroundColor, dividerColor, renderLeading, scrollEnabled}) => {
+const MixedFoodList: React.FC<MixedFoodListFoodListProps> = ({items, onPressItem, onDeleteItem, backgroundColor, dividerColor, renderLeading, scrollEnabled}) => {
     const textColorSecondary = useThemeColor({}, "labelSecondary");
 
     const renderItem = ({item}: {item: FoodItem}) => (
 
-        <SwipeToDelete onDelete={() => {}}>
+        <SwipeToDelete onDelete={() => onDeleteItem && onDeleteItem(item)}>
             <Row
                 leading={renderLeading ? renderLeading(item) : undefined}
                 trailing={

@@ -236,3 +236,52 @@ exports.deleteUser = onCall(async (request) => {
     );
   }
 });
+
+exports.deleteNutritionItem = onCall(async (request) => {
+  const {
+    uid,
+    itemId,
+    itemType,
+  }: {uid: string; itemId: string; itemType: 'food' | 'userFood' | 'foodCombination'} = request.data;
+
+  if (!uid || !itemId || !itemType) {
+    throw new functions.https.HttpsError(
+      'invalid-argument',
+      'uid, itemId and itemType must be provided'
+    );
+  }
+
+  try {
+    let collectionRef;
+    switch (itemType) {
+      case 'food':
+        collectionRef = db.foods(uid);
+        break;
+      case 'userFood':
+        collectionRef = db.userFoods(uid);
+        break;
+      case 'foodCombination':
+        collectionRef = db.foodCombinations(uid);
+        break;
+      default:
+        throw new functions.https.HttpsError(
+          'invalid-argument',
+          'Unknown itemType'
+        );
+    }
+
+    await collectionRef.doc(itemId).delete({exists: true});
+
+    return {
+      message: 'Nutrition item deleted successfully',
+      success: true,
+    };
+  } catch (error) {
+    logger.error('error in deleteNutritionItem: ', error);
+    throw new functions.https.HttpsError(
+      'internal',
+      'Unable to delete nutrition item',
+      error
+    );
+  }
+});
