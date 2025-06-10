@@ -1,5 +1,5 @@
 import {createFormItemsForUpdate, uploadCompleteFormDefinition, uploadFormSubmissionData} from '@/cloudfunctions/addFunctions';
-import {deleteFormAndMetricDefs, deleteFormItemsForUpdate} from '@/cloudfunctions/deleteFunctions';
+import {deleteFormAndMetricDefs, deleteFormItemsForUpdate, deleteUserAccount} from '@/cloudfunctions/deleteFunctions';
 import {homeLog, log} from '@/types/logger';
 import {logErrorToSentry} from '@/utils/util';
 import {FormDefinition, FormSubmission, MetricDefinition, MetricPackDefinition, MetricPackSubmission, MetricSubmission, Widget} from '@/types/formdefinition';
@@ -8,7 +8,6 @@ import {updateFormItems} from '@/cloudfunctions/updateFunctions';
 import {NutritionPackItems} from '../../../../../types/store-types';
 
 export const apiService = {
-
 
 
     async updateForm(

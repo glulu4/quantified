@@ -5,6 +5,7 @@ import {HttpsCallableResult} from "firebase/functions";
 import {logErrorToSentry} from "@/utils/util";
 import {FormDefinition, MetricDefinition, MetricPackDefinition, Widget} from "@/types/formdefinition";
 import {Graph} from "@/types/graph";
+import {User} from "@/types/user";
 
 type UpdateFirestoreResponse = {
     message: string;
@@ -67,4 +68,8 @@ export const updateMetricDefinitions = async (metricDefinitions: MetricDefinitio
     console.log("Sending metricDefinitions for update", metricDefinitions);
 
     return updateFirestore<MetricDefinition[]>(metricDefinitions, "update-updateMetricDefinitions");
+};
+
+export const updateUser = async (user: Partial<User>): Promise<boolean> => {
+    return updateFirestore<Partial<User>>(user, "update-updateUser");
 };

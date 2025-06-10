@@ -36,7 +36,7 @@ export function useHomeScreenLogic() {
     }
 
     const openAccountScreen = () => {
-        navigation.navigate("Account/Account", {});
+        navigation.navigate("Account", {});
     }
 
     return {goToAddForm, goToFormSubmission, deleteForm, viewAllForms, openAccountScreen};

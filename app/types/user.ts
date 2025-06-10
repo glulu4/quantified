@@ -22,3 +22,16 @@ export interface UserSetting {
     colorScheme: string;
     // add more ...
 }
+
+
+
+
+
+export enum EditableField {
+    Name = 'Name',
+    Email = 'Email',
+    PhoneNumber = 'Phone Number',
+    DateOfBirth = 'Date of Birth',
+    Height = 'Height',
+    Weight = 'Weight',
+}
