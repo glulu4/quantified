@@ -2,9 +2,10 @@ import {useNavigation} from "expo-router";
 import {useForm} from "@/app/context/FormContext";
 import {HomeStackNavigationType} from "../../_layout";
 import {errorToast} from "@/utils/toastUtils";
-import {CoreMetric, CoreMetricPack} from "@/types/core-metric";
 import {useCallback} from "react";
 import {getNewItems, StatusItem} from "@/types/status-item";
+import {CoreMetric} from "@/types/coremetric";
+import {CoreMetricPack} from "@/types/coremetric-pack";
 
 /**
  * Manages metric selection logic, tracking "new", "old", and removed metrics.

@@ -15,15 +15,15 @@ export default {
       backgroundColor: "#ffffff"
     },
     ios: {
-      supportsTablet: true,
-      bundleIdentifier: "com.anonymous.app",
+      supportsTablet: false,
+      bundleIdentifier: "com.gabriel.quantified",
     },
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/images/adaptive-icon.png",
         backgroundColor: "#ffffff"
       },
-      package: "com.anonymous.app"
+      package: "com.gabriel.quantified"
     },
     web: {
       bundler: "metro",

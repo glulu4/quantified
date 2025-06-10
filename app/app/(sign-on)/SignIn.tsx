@@ -1,14 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import {
-  SafeAreaView,
-  StyleSheet, TouchableOpacity, View,
+  TouchableOpacity, View,
   Text,
 } from 'react-native'
-import {ThemedText} from '@/components/ui/ThemedText'
 import Button from '@/components/Button';
 import {useNavigation} from 'expo-router';
 import {Action, SignInForm, SignInNavigationType} from './_layout';
-import {ThemedTextInput} from '@/components/ui/ThemedTextInput';
 import Toast from 'react-native-toast-message';
 import {useAuth} from '../context/AuthContext';
 import {validatePassword} from '@/utils/util';
@@ -16,7 +13,6 @@ import {errorToast} from '@/utils/toastUtils';
 import ThemedView from '@/components/ThemedView';
 import {SFSymbol} from 'react-native-sfsymbols';
 import {useThemeColor} from '@/hooks/useThemeColor';
-import {TextInput} from 'react-native-gesture-handler';
 import TextInputWithLabel from '@/components/TextInputLabeled';
 
 export default function SignIn() {
@@ -48,11 +44,7 @@ export default function SignIn() {
   })
 
   const goToLoading = (who?: string) => {
-    const validationMessage = validatePassword(password);
-    if (validationMessage) {
-      errorToast(validationMessage);
-      return;
-    }
+
 
     if (who === "gabby") {
       let form: SignInForm = {
@@ -64,7 +56,19 @@ export default function SignIn() {
         signInForm: form,
       })
     }
+
+
     else {
+
+
+      const validationMessage = validatePassword(password);
+      if (validationMessage) {
+
+
+        errorToast(validationMessage);
+        return;
+      }
+
       let form: SignInForm = {
         email,
         password,
@@ -128,24 +132,4 @@ export default function SignIn() {
   )
 }
 
-
-const styles = StyleSheet.create({
-
-  textinput: {
-    flex: 0.7,
-
-  },
-  textInputView: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
-
-  inputBoxHeader: {
-    textAlign: 'left',
-    // marginLeft: 65
-  },
-
-
-})
 

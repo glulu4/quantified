@@ -98,7 +98,6 @@ function RootLayout() {
 
           <AuthProvider>
             <Provider>
-              {/* To be removed - ui kitten */}
               <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
                 <Stack >
                   <Stack.Screen name="(tabs)" options={{headerShown: false}} />
