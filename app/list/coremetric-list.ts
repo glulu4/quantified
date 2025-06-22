@@ -3199,7 +3199,7 @@ export const CoreMetricList: CoreMetric[] = [
     {
         id: "sleep_duration",
         defaultTitle: "Sleep Duration",
-        inputTypes: [CoreInputType.TIME],
+        inputTypes: [CoreInputType.TIME, CoreInputType.NUMBER],
         unitTypes: [CoreUnitType.HOUR, CoreUnitType.TIME],
         filters: [
             {tag: "Body System", subtag: "Brain"},

@@ -79,10 +79,8 @@ const WidgetPrompt = () => {
                     Add visuals to your form
                 </ThemedText>
                 <ThemedText labelType="secondary" type="body" className=" text-center mt-3">
-                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sit
-                    molestias blanditiis architecto unde, cumque natus aut nulla est!
-                    Animi odio necessitatibus hic expedita quaerat nam commodi nesciunt
-                    reprehenderit iure ipsa.
+                    Visuals like charts and graphs can help you better understand your data.
+                    You can add them now or set them up later.
                 </ThemedText>
             </View>
 

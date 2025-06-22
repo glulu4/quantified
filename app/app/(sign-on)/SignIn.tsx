@@ -61,13 +61,13 @@ export default function SignIn() {
     else {
 
 
-      const validationMessage = validatePassword(password);
-      if (validationMessage) {
+      // const validationMessage = validatePassword(password);
+      // if (validationMessage) {
 
 
-        errorToast(validationMessage);
-        return;
-      }
+      //   errorToast(validationMessage);
+      //   return;
+      // }
 
       let form: SignInForm = {
         email,
