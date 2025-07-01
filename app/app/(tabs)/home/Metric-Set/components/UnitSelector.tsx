@@ -41,10 +41,10 @@ const UnitSelector = ({coreMetric, updateMetricDef}: UnitSelectorProps) => {
                     const selected: string = e.nativeEvent.name;
                     if (selected) {
                         setSelectedUnit(selected);
-                        const input = unitToInput(selected as CoreUnitType);
+                        // const input = unitToInput(selected as CoreUnitType);
                         updateMetricDef(coreMetric.id, {
                             unitType: selected as CoreUnitType,
-                            inputType: input,
+                            // inputType: input,
                         });
                     }
 

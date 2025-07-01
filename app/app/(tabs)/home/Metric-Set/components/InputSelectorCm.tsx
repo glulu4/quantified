@@ -66,10 +66,10 @@ const InputSelectorCm = ({coreMetric, updateMetricDef}: InputSelectorProps) => {
             dropdownOptions: dropdownOptions,
         };
 
-        const units = inputToUnits(selected as CoreInputType);
-        if (units.length > 0) {
-            (updates as Partial<MetricDefinition>).unitType = units[0];
-        }
+        // const units = inputToUnits(selected as CoreInputType);
+        // if (units.length > 0) {
+        //     (updates as Partial<MetricDefinition>).unitType = units[0];
+        // }
 
         updateMetricDef(coreMetric.id, updates);
         bottomSheetRef.current?.close();
